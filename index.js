@@ -14,3 +14,4 @@ app.get("/users", db.getUsers);
 app.get('/event', db.getEvent);
 app.get('/event/comments', db.getUpdatedComments)
 app.post('/create/event', db.createEvent)
+app.post('/update/event', db.updateEvent)
