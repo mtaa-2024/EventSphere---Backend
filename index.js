@@ -12,3 +12,4 @@ app.listen(config.port, () => {
 
 app.get("/users", db.getUsers);
 app.get('/event', db.getEvent);
+app.get('/event/comments', db.getUpdatedComments)
