@@ -28,6 +28,7 @@ const createEvent = async (request, response) => {
                     await pool.query(addPerformerNameQuery, [eventId, firstname, lastname]);
                 }
             }));
+            logger(request, response, Level.INFO, "Added performers to event (" + eventId + ")")
         } catch (error) {
             logger(request, response, Level.ERROR, "Error adding performer to event (" + eventId + "): " + error.message);
             return response.status(500).json({ error: error.message });
