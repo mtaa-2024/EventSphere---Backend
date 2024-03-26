@@ -1,7 +1,6 @@
 const {request, response, json} = require("express");
 const {Level, logger} = require("../logs");
 const pool = require("../../core/connection").pool
-
 const { getEventQuery, getEventCommentsQuery, getEventPerformersQuery } = require('./utils')
 
 const getEvent = async (request, response) => {
@@ -20,7 +19,7 @@ const getEvent = async (request, response) => {
         logger(request, response, Level.INFO, "Retrieved information for event with id: " + id);
         response.status(200).json({ 'event': eventResults, 'performers': performers, 'comments': comments });
     } catch (error) {
-        logger(request, response, Level.ERROR, "Error retrieving event information: " + error.message);
+        logger(request, response, Level.ERROR, "Error retrieving event (" + id + ") information: " + error.message);
         response.status(500).json({ error: error.message });
     }
 }
@@ -32,7 +31,7 @@ const getUpdatedComments = async(request, response) => {
         logger(request, response, Level.INFO, "Retrieved updated comments for event with id: " + id);
         response.status(200).json({'comments': comments});
     } catch (error) {
-        logger(request, response, Level.ERROR, "Error retrieving event information: " + error.message);
+        logger(request, response, Level.ERROR, "Error retrieving event (" + id + ") information: " + error.message);
         response.status(500).json({ error: error.message });
     }
 
@@ -72,7 +71,7 @@ const addEventComment = async (request, response) => {
             });
         });
     } catch (error) {
-        logger(request, response, Level.ERROR, "Error retrieving event information: " + error.message);
+        logger(request, response, Level.ERROR, "Error retrieving event (" + id + ") information: " + error.message);
         response.status(500).json({ error: error.message });
     }
 }
