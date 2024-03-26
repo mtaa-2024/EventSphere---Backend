@@ -45,5 +45,6 @@ const addPerformer = async (request, response, performers, event_id) => {
 }
 
 module.exports = {
-    createEvent
+    createEvent,
+    addPerformer
 }

@@ -8,6 +8,12 @@ updateEventQuery =
     '    closing_at = $4 \n' +
     'WHERE events.id = $5'
 
+updatePerformersQuery =
+    'DELETE FROM ' +
+    'event_performers ' +
+    'WHERE event_id = $1'
+
 module.exports = {
-    updateEventQuery
+    updateEventQuery,
+    updatePerformersQuery
 }
