@@ -14,10 +14,10 @@ const getUpcoming = async (request, response) => {
                     resolve(results)
             })
         })
-        logger(request, response, Level.INFO, "Received all upcoming events")
+        await logger(request, response, Level.INFO, "Received all upcoming events")
         response.status(200).json(eventResults.rows)
     } catch (error) {
-        logger(request, response, Level.ERROR, "Error getting upcoming events: " + error.message)
+        await logger(request, response, Level.ERROR, "Error getting upcoming events: " + error.message)
         response.status(500).json({ "error": error.message })
     }
 }
@@ -33,10 +33,10 @@ const getAttending = async (request, response) => {
                     resolve(results)
             })
         })
-        logger(request, response, Level.INFO, "Received all attending events for user with id: " + id)
+        await logger(request, response, Level.INFO, "Received all attending events for user with id: " + id)
         response.status(200).json(eventResults.rows)
     } catch (error) {
-        logger(request, response, Level.ERROR, "Error getting attending events for user with id: (" + id + ") " + error.message)
+        await logger(request, response, Level.ERROR, "Error getting attending events for user with id: (" + id + ") " + error.message)
         response.status(500).json({ "error": error.message })
     }
 }
@@ -52,10 +52,10 @@ const filterByCategory = async (request, response) => {
                     resolve(results)
             })
         })
-        logger(request, response, Level.INFO, "Received all events with category id: " + category_id)
+        await logger(request, response, Level.INFO, "Received all events with category id: " + category_id)
         response.status(200).json(eventResults.rows)
     } catch (error) {
-        logger(request, response, Level.ERROR, "Error getting events with category id: (" + id + ") " + error.message)
+        await logger(request, response, Level.ERROR, "Error getting events with category id: (" + id + ") " + error.message)
         response.status(500).json({ "error": error.message })
     }
 }
@@ -71,10 +71,10 @@ const searchEvent = async (request, response) => {
                     resolve(results)
             })
         })
-        logger(request, response, Level.INFO, "Received all events with filter")
+        await logger(request, response, Level.INFO, "Received all events with filter")
         response.status(200).json(eventResults.rows)
     } catch (error) {
-        logger(request, response, Level.ERROR, "Error getting events with filter" + error.message)
+        await logger(request, response, Level.ERROR, "Error getting events with filter" + error.message)
         response.status(500).json({ "error": error.message })
     }
 }
