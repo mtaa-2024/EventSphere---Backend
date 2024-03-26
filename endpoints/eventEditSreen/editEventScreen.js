@@ -6,7 +6,7 @@ const pool = require("../../core/connection").pool;
 const { updateEventQuery } = require('./utils')
 
 const updateEvent = async (request, response) => {
-    const { event_id, title, description, location, closing_date } = request.body;
+    const { event_id, title, description, location, closing_date} = request.body;
     try {
         const eventResult = await new Promise((resolve, reject) => {
             pool.query(updateEventQuery, [title, description, location, closing_date, event_id], (error, results) => {
@@ -17,6 +17,7 @@ const updateEvent = async (request, response) => {
             });
         });
 
+
         logger(request, response, Level.INFO, "Updated event with id: " + event_id);
         return response.status(200).json({ "updated_status": true });
     } catch (error) {
@@ -24,6 +25,7 @@ const updateEvent = async (request, response) => {
         return response.status(500).json({ error: error.message });
     }
 }
+
 
 module.exports = {
     updateEvent
