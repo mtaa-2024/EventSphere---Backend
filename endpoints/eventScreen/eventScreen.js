@@ -60,6 +60,23 @@ const getEventPerformers = async (request, response, id) => {
     });
 }
 
+const addEventComment = async (request, response) => {
+    const id = request.body.id;
+    try {
+        const eventResults = await new Promise((resolve, reject) => {
+            pool.query(addEventCommentQuery, [id], (error, results) => {
+                if (error)
+                    reject(error);
+                else
+                    resolve(results.rows);
+            });
+        });
+    } catch (error) {
+        logger(request, response, Level.ERROR, "Error retrieving event information: " + error.message);
+        response.status(500).json({ error: error.message });
+    }
+}
+
 module.exports = {
     getEvent,
     getUpdatedComments
