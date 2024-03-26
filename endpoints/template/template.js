@@ -1,4 +1,5 @@
 const {request, response} = require("express");
+const {Level, logger} = require("../logs");
 const pool = require("../../core/connection").pool
 const getUsers = async (request, response) => {
     const { id, username } = request.body;
@@ -7,7 +8,9 @@ const getUsers = async (request, response) => {
         if (error) {
             throw error
         }
-        response.status(200).json(results.rows)
+
+        logger(request, response, Level.INFO, "Som cigan")
+        response.status(200).json({"id": id, "username": username})
     })
 }
 
