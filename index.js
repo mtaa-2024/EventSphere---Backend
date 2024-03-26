@@ -15,3 +15,7 @@ app.get('/event', db.getEvent);
 app.get('/event/comments', db.getUpdatedComments)
 app.post('/create/event', db.createEvent)
 app.post('/update/event', db.updateEvent)
+app.get('/upcoming', db.getUpcoming)
+app.get('/attending', db.getAttending)
+app.get('/categories', db.filterByCategory)
+app.get('/event/search', db.searchEvent)

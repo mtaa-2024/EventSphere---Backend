@@ -1,6 +1,5 @@
 const { request, response, json } = require("express");
 const { Level, logger } = require("../logs");
-const {createEventQuery} = require("../createEventScreen/utils");
 const pool = require("../../core/connection").pool;
 
 const { updateEventQuery } = require('./utils')
