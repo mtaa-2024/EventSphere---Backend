@@ -10,6 +10,7 @@ app.listen(config.port, () => {
     console.log(`Server is running on port ${config.port}`);
 });
 
+
 app.get("/users", db.getUsers);
 app.get('/event', db.getEvent);
 app.get('/event/comments', db.getUpdatedComments)

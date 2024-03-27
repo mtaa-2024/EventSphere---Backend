@@ -8,10 +8,7 @@ const getUpcoming = async (request, response) => {
     try {
         const eventResults = await new Promise((resolve, reject) => {
             pool.query(getUpcomingQuery, null, (error, results) => {
-                if (error)
-                    reject(error)
-                else
-                    resolve(results)
+                if (error) reject(error); else resolve(results.rows);
             })
         })
         await logger(request, response, Level.INFO, "Received all upcoming events")
@@ -27,10 +24,7 @@ const getAttending = async (request, response) => {
     try {
         const eventResults = await new Promise((resolve, reject) => {
             pool.query(getAttendingQuery, [id], (error, results) => {
-                if (error)
-                    reject(error)
-                else
-                    resolve(results)
+                if (error) reject(error); else resolve(results.rows);
             })
         })
         await logger(request, response, Level.INFO, "Received all attending events for user with id: " + id)
@@ -46,10 +40,7 @@ const filterByCategory = async (request, response) => {
     try {
         const eventResults = await new Promise((resolve, reject) => {
             pool.query(filterByCategoryQuery, [category_id], (error, results) => {
-                if (error)
-                    reject(error)
-                else
-                    resolve(results)
+                if (error) reject(error); else resolve(results.rows);
             })
         })
         await logger(request, response, Level.INFO, "Received all events with category id: " + category_id)
@@ -65,10 +56,7 @@ const searchEvent = async (request, response) => {
     try {
         const eventResults = await new Promise((resolve, reject) => {
             pool.query(searchEventQuery, [filter], (error, results) => {
-                if (error)
-                    reject(error)
-                else
-                    resolve(results)
+                if (error) reject(error); else resolve(results);
             })
         })
         await logger(request, response, Level.INFO, "Received all events with filter")

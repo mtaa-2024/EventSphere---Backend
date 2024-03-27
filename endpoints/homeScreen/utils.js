@@ -30,7 +30,7 @@ filterByCategoryQuery =
     'INNER JOIN categories ON categories.event_id = events.id\n' +
     'WHERE categories.category_id = $1'
 
-searchEventQuery =
+searchEventQuery = 
     'SELECT\n' +
     '    events.id,\n' +
     '    events.title,\n' +

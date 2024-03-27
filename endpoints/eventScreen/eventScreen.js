@@ -8,10 +8,7 @@ const getEvent = async (request, response) => {
     try {
         const eventResults = await new Promise((resolve, reject) => {
             pool.query(getEventQuery, [id], (error, results) => {
-                if (error)
-                    reject(error);
-                else
-                    resolve(results.rows);
+                if (error) reject(error); else resolve(results.rows);
             });
         });
         const comments = await getEventComments(request, response, id);
@@ -40,10 +37,7 @@ const getUpdatedComments = async(request, response) => {
 const getEventComments = async (request, response, id) => {
     return new Promise((resolve, reject) => {
         pool.query(getEventCommentsQuery, [id], (error, results) => {
-            if (error)
-                reject(error);
-            else
-                resolve(results.rows);
+            if (error) reject(error); else resolve(results.rows);
         });
     });
 }
@@ -51,10 +45,7 @@ const getEventComments = async (request, response, id) => {
 const getEventPerformers = async (request, response, id) => {
     return new Promise((resolve, reject) => {
         pool.query(getEventPerformersQuery, [id], (error, results) => {
-            if (error)
-                reject(error);
-            else
-                resolve(results.rows);
+            if (error) reject(error); else resolve(results.rows);
         });
     });
 }

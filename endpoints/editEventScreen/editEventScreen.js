@@ -32,10 +32,7 @@ const updateTitle = async (request, response, event_id, title) => {
     try {
         const eventResult = await new Promise((resolve, reject) => {
             pool.query(updateTitleQuery, [event_id, title], (error, results) => {
-                if (error)
-                    reject(error);
-                else
-                    resolve(results.rows);
+                if (error) reject(error); else resolve(results.rows);
             });
         });
     } catch (error) {
@@ -47,10 +44,7 @@ const updateLocation = async (request, response, event_id, location) => {
     try {
         const eventResult = await new Promise((resolve, reject) => {
             pool.query(updateLocationQuery, [event_id, location], (error, results) => {
-                if (error)
-                    reject(error);
-                else
-                    resolve(results.rows);
+                if (error) reject(error); else resolve(results.rows);
             });
         });
     } catch (error) {
@@ -62,10 +56,7 @@ const updateDate = async (request, response, event_id, date) => {
     try {
         const eventResult = await new Promise((resolve, reject) => {
             pool.query(updateDateQuery, [event_id, date], (error, results) => {
-                if (error)
-                    reject(error);
-                else
-                    resolve(results.rows);
+                if (error) reject(error); else resolve(results.rows);
             });
         });
     } catch (error) {
@@ -77,10 +68,7 @@ const updateDescription = async (request, response, event_id, description) => {
     try {
         const eventResult = await new Promise((resolve, reject) => {
             pool.query(updateDescriptionQuery, [event_id, description], (error, results) => {
-                if (error)
-                    reject(error);
-                else
-                    resolve(results.rows);
+                if (error) reject(error); else resolve(results.rows);
             });
         });
     } catch (error) {
@@ -92,10 +80,7 @@ const updatePerformers = async (request, response, event_id, performers) => {
     try {
         const eventResult = await new Promise((resolve, reject) => {
             pool.query(deletePerformersQuery, [event_id], (error, results) => {
-                if (error)
-                    reject(error);
-                else
-                    resolve(results.rows);
+                if (error) reject(error); else resolve(results.rows);
             });
         });
         try {
