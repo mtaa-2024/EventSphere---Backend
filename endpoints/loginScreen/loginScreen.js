@@ -8,10 +8,8 @@ const { checkLoginQuery } = require('./utils');
 const checkLogin = async (request, response) => {
     const { username, email, password } = request.body;
     try {
-        const loginName = (username == null? email: username)
-        console.log(loginName)
         const check = await new Promise((resolve, reject) => {
-            pool.query(checkLoginQuery, [loginName], (error, results) => {
+            pool.query(checkLoginQuery, [username == null? email: username], (error, results) => {
                 if (error) reject(error); else resolve(results.rows);
             });
         });
@@ -29,7 +27,7 @@ const checkLogin = async (request, response) => {
         return response.status(200).json(check.rows);
     }
     catch (error) {
-    //await logger(request, response, Level.ERROR, "Error creating event: " + error.message);
+    await logger(request, response, Level.ERROR, "Error creating event: " + error.message);
     return response.status(500).json({ error: error.message });
 }
 }
