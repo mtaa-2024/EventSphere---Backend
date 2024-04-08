@@ -13,13 +13,15 @@ const checkLogin = async (request, response) => {
                 if (error) reject(error); else resolve(results.rows);
             });
         });
-        if (check.rows != null && check.rows.length >0){
-            const hashedPassword = check.rows[0].password
-            const passwordMatch = await bcrypt.compare(hashedPassword, password)
-
-            if(!passwordMatch){
-                return response.status(400).json("zlé heslo");
+        if (check.rows != null && check.rows.length > 0){
+            const passwordMatch = await bcrypt.compare(check.rows[0].password, password)
+            if(!passwordMatch) {
+                return response.status(400).json({"error": "Wrong password"});
             }
+
+
+
+
         }
 
 
