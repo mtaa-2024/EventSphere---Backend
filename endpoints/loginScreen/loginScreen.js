@@ -18,14 +18,7 @@ const checkLogin = async (request, response) => {
             if(!passwordMatch) {
                 return response.status(400).json({"error": "Wrong password"});
             }
-
-
-
-
         }
-
-
-
         return response.status(200).json(check.rows);
     }
     catch (error) {
