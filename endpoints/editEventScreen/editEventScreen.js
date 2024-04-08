@@ -2,11 +2,11 @@ const { request, response, json } = require("express");
 const { Level, logger } = require("../logs");
 const pool = require("../../core/connection").pool;
 
-const {updateTitleQuery, updateLocationQuery, updateDateQuery, updateDescriptionQuery, deletePerformersQuery } = require('./utils')
+const {updateTitleQuery, updateLocationQuery, updateDateQuery, updateDescriptionQuery, deletePerformersQuery, deleteEventQuery} = require('./utils')
 const { addPerformer } = require('../createEventScreen/createEventScreen')
 
 const updateEvent = async (request, response) => {
-    const { id, title, description, location, date, performers} = request.body;
+    const { id, title, description, location, date, performers } = request.body;
 
     if (id == null) {
         await logger(request, response, Level.ERROR, "Error updating event: ID of event not provided");
@@ -93,8 +93,21 @@ const updatePerformers = async (request, response, event_id, performers) => {
     }
 }
 
+const deleteEvent = async (request, response) => {
+    const id = request.body.id;
+    try {
+        const eventResult = await new Promise((resolve, reject) => {
+            pool.query(deleteEventQuery, [id], (error, results) => {
+                if (error) reject(error); else resolve(results.rows);
+            });
+        });
+    } catch (error) {
+        await logger(request, response, Level.ERROR, "Error deleting event (" + id + "): " + error.message);
+    }
+}
 
 
 module.exports = {
-    updateEvent
+    updateEvent,
+    deleteEvent
 }

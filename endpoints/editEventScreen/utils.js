@@ -31,10 +31,16 @@ updateDateQuery =
     ' date = $2 \n' +
     'WHERE events.id = $1'
 
+deleteEventQuery =
+    'DELETE FROM \n' +
+    '   events \n' +
+    'WHERE events.id = $1'
+
 module.exports = {
     deletePerformersQuery,
     updateTitleQuery,
     updateDescriptionQuery,
     updateLocationQuery,
-    updateDateQuery
+    updateDateQuery,
+    deleteEventQuery
 }
