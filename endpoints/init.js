@@ -5,6 +5,8 @@ const { updateEvent } = require('./editEventScreen/editEventScreen')
 const { getUpcoming, getAttending, filterByCategory, searchEvent } = require('./homeScreen/homeScreen')
 const { checkLogin } = require('./loginScreen/loginScreen')
 const { createNewUser } = require('./registerScreen/registerScreen')
+const { editUserProfile } = require('./editProfileScreen/editProfileScreen')
+
 
 module.exports = {
     getUsers,
@@ -17,5 +19,6 @@ module.exports = {
     filterByCategory,
     searchEvent,
     checkLogin,
-    createNewUser
+    createNewUser,
+    editUserProfile
 }
