@@ -9,13 +9,13 @@ checkUsernameQuery =
     'SELECT\n' +
     'users.username\n' +
     'FROM users\n' +
-    'WHERE username = $1'
+    'WHERE users.username = $1'
 
 checkEmailQuery =
-    'SELECT' +
-    'users.email' +
-    'FROM users' +
-    'WHERE email = $1'
+    'SELECT\n' +
+    'users.email\n' +
+    'FROM users\n' +
+    'WHERE users.email = $1'
 
 
 module.exports = {

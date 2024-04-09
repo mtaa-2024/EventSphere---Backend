@@ -15,7 +15,7 @@ const checkLogin = async (request, response) => {
         });
         if (check.length > 0) {
             const hashedPassword = check[0].password
-            const passwordMatch = await bcrypt.compare(hashedPassword, password)
+            const passwordMatch = await bcrypt.compare(password, hashedPassword)
             if(!passwordMatch) {
                 await logger(request, response, "Info", "Wrong password for user with id: " + check.id);
                 return response.status(400).json({"result": false});
