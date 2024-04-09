@@ -25,8 +25,7 @@ const createNewUser = async (request, response) => {
             return response.status(400).json({"result": false, "text": "Email is already in use"});
         }
 
-    await importUserToDatabase(request, response, username, email, password)
-    return response.status(200).json({ "result": true });
+    return await importUserToDatabase(request, response, username, email, password)
 }
 
 const checkUsername = async (request, response, username) => {

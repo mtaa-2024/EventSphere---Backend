@@ -22,6 +22,7 @@ app.get('/upcoming', db.getUpcoming); // Getting upcoming events
 app.get('/attending', db.getAttending); // Getting attending events Params = (user_id: int)
 app.get('/categories', db.filterByCategory); // Filter events by category
 app.get('/event/search', db.searchEvent); // Search for event by string
+// User management
 app.get('/login',db.checkLogin)
 app.get('/register',db.createNewUser)
 app.get('/user/edit', db.editUserProfile)

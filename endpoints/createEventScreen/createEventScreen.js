@@ -20,7 +20,7 @@ const createEvent = async (request, response) => {
             await logger(request, response, "Info", "Created new event with id: " + event_id);
             return response.status(200).json({"created_status": true});
         } else {
-            await logger(request, response, "Error", "Error creating event: " + error.message);
+            await logger(request, response, "Error", "Error creating event" );
             return response.status(500).json({ "error": "Unexpected error occurred while creating event" });
         }
     } catch (error) {
