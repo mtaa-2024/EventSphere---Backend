@@ -1,5 +1,5 @@
 const { request, response, json } = require("express");
-const { Level, logger } = require("../logs");
+const { logger } = require("../logs");
 const bcrypt = require('bcrypt')
 const pool = require("../../core/connection").pool;
 
@@ -31,7 +31,7 @@ const checkUsername = async (request, response) => {
         return response.status(200).json(result.rows);
     }
     catch (error) {
-        await logger(request, response, Level.ERROR, "Error creating event: " + error.message);
+        await logger(request, response, "Error", "Error creating event: " + error.message);
         return response.status(500).json({ error: error.message });
     }
 }
@@ -46,7 +46,7 @@ const checkEmail = async (request, response) => {
         });
     }
     catch (error) {
-        await logger(request, response, Level.ERROR, "Error creating event: " + error.message);
+        await logger(request, response, "Error", "Error creating event: " + error.message);
         return response.status(500).json({ error: error.message });
     }
 }
