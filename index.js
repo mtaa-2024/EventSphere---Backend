@@ -23,3 +23,4 @@ app.get('/attending', db.getAttending); // Getting attending events Params = (us
 app.get('/categories', db.filterByCategory); // Filter events by category
 app.get('/event/search', db.searchEvent); // Search for event by string
 app.get('/login',db.checkLogin)
+app.get('/register',db.createNewUser)
