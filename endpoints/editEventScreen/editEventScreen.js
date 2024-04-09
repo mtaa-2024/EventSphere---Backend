@@ -1,5 +1,5 @@
 const { request, response, json } = require("express");
-const { Level, logger } = require("../logs");
+const { logger } = require("../logs");
 const pool = require("../../core/connection").pool;
 
 const {updateTitleQuery, updateLocationQuery, updateDateQuery, updateDescriptionQuery, deletePerformersQuery, deleteEventQuery} = require('./utils')
@@ -9,7 +9,7 @@ const updateEvent = async (request, response) => {
     const { id, title, description, location, date, performers } = request.body;
 
     if (id == null) {
-        await logger(request, response, Level.ERROR, "Error updating event: ID of event not provided");
+        await logger(request, response, "Error", "Error updating event: ID of event not provided");
         response.status(404).json({"error": "Missing event id"})
     }
 
@@ -24,7 +24,7 @@ const updateEvent = async (request, response) => {
     if (performers != null)
         await updatePerformers(request, response, id, performers)
 
-    await logger(request, response, Level.INFO, "Updated event with id: " + id);
+    await logger(request, response, "Info", "Updated event with id: " + id);
     return response.status(200).json({ "updated_status": true });
 }
 
@@ -36,7 +36,7 @@ const updateTitle = async (request, response, event_id, title) => {
             });
         });
     } catch (error) {
-        await logger(request, response, Level.ERROR, "Error updating title for event (" + id + "): " + error.message);
+        await logger(request, response, "Error", "Error updating title for event (" + id + "): " + error.message);
     }
 }
 
@@ -48,7 +48,7 @@ const updateLocation = async (request, response, event_id, location) => {
             });
         });
     } catch (error) {
-        await logger(request, response, Level.ERROR, "Error updating location for event (" + id + "): " + error.message);
+        await logger(request, response, "Error", "Error updating location for event (" + id + "): " + error.message);
     }
 }
 
@@ -60,7 +60,7 @@ const updateDate = async (request, response, event_id, date) => {
             });
         });
     } catch (error) {
-        await logger(request, response, Level.ERROR, "Error updating date for event (" + id + "): " + error.message);
+        await logger(request, response, "Error", "Error updating date for event (" + id + "): " + error.message);
     }
 }
 
@@ -72,7 +72,7 @@ const updateDescription = async (request, response, event_id, description) => {
             });
         });
     } catch (error) {
-        await logger(request, response, Level.ERROR, "Error updating description for event (" + id + "): " + error.message);
+        await logger(request, response, "Error", "Error updating description for event (" + id + "): " + error.message);
     }
 }
 
@@ -86,10 +86,10 @@ const updatePerformers = async (request, response, event_id, performers) => {
         try {
             await addPerformer(request, response, event_id, performers)
         } catch (error) {
-            await logger(request, response, Level.ERROR, "Error adding performers to event (" + event_id + "): " + error.message);
+            await logger(request, response, "Error", "Error adding performers to event (" + event_id + "): " + error.message);
         }
     } catch (error) {
-        await logger(request, response, Level.ERROR, "Error updating performers for event (" + event_id + "): " + error.message);
+        await logger(request, response, "Error", "Error updating performers for event (" + event_id + "): " + error.message);
     }
 }
 
