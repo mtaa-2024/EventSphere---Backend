@@ -2,11 +2,19 @@ getProfileQuery =
     'SELECT\n' +
     'users.firstname\n,' +
     'users.lastname\n,' +
-    'users.profile_image\n,' +
-    'friends.friend_id\n' +
+    'users.profile_image\n' +
     'FROM users\n' +
-    'JOIN friends ON users.id = friends.user_id\n' +
     'WHERE users.id = $1'
+
+getFriendsQuery =
+    'SELECT\n' +
+    'users.firstname,\n' +
+    'users.lastname,\n' +
+    'users.username,\n' +
+    'users.profile_image\n' +
+    'FROM users\n' +
+    'INNER JOIN friends ON users.id = friends.friend_id\n' +
+    'WHERE friends.user_id = $1'
 
 removeFriendQuery =
     'DELETE\n'+
@@ -15,5 +23,6 @@ removeFriendQuery =
 
 module.exports = {
     getProfileQuery,
-    removeFriendQuery
+    removeFriendQuery,
+    getFriendsQuery
 }
