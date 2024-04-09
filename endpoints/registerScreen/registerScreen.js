@@ -26,7 +26,7 @@ const createNewUser = async (request, response) => {
         }
 
     await importUserToDatabase(request, response, username, email, password)
-    return response.status(200).json({ "fine": true });
+    return response.status(200).json({ "result": true });
 }
 
 const checkUsername = async (request, response, username) => {
@@ -69,7 +69,7 @@ const importUserToDatabase = async (request, response, username, email, password
         });
         const user_id = result[0].id;
         if(user_id !== null){
-            return response.status(200).json({"created_status": true});
+            return response.status(200).json({"result": true, "user_id": result[0].id});
         }
     }
     catch (error) {
