@@ -22,7 +22,7 @@ const checkLogin = async (request, response) => {
             }
 
             await logger(request, response, "Info", "Successfully logged user with id: " + check[0].id);
-            return response.status(200).json({"result": true});
+            return response.status(200).json({"result": true, "user_id": check[0].id});
         }
         await logger(request, response, "Error", "User not found");
         return response.status(200).json({"result": false});
