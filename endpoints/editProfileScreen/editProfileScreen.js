@@ -15,12 +15,12 @@ const editUserProfile = async (request, response) => {
         await editFirstname(request, response, id, firstname)
     if (lastname != null)
         await editLastname(request, response, id, lastname)
-    if (oldEmail != null)
+    if (oldEmail != null && newEmail != null)
         if (await checkEmail(request, response, oldEmail)) {
             return response.status(400).json({"result": false, "text": "Wrong Email"});
+        } else {
+            await editEmail(request, response, id, newEmail)
         }
-    if (newEmail != null)
-        await editEmail(request, response, id, newEmail)
 
     await logger(request, response, "Info", "Updated userProfile with id: " + id);
     return response.status(200).json({ "updated_status": true });
@@ -67,7 +67,7 @@ const checkEmail = async (request, response, id, oldEmail) => {
 const editEmail = async (request, response, id, newEmail) => {
     try {
         const result = await new Promise((resolve, reject) => {
-            pool.query(checkEmailQuery, [id, newEmail], (error, results) => {
+            pool.query(editEmailQuery, [id, newEmail], (error, results) => {
                 if (error) reject(error); else resolve(results.rows);
             });
         });
