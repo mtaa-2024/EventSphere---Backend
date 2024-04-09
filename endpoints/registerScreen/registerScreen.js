@@ -79,8 +79,5 @@ const importUserToDatabase = async (request, response, username, email, password
 
 
 module.exports = {
-    importUserToDatabase,
-    checkUsername,
-    checkEmail,
     createNewUser
 }

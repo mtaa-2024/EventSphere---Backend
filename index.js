@@ -24,5 +24,5 @@ app.get('/categories', db.filterByCategory); // Filter events by category
 app.get('/event/search', db.searchEvent); // Search for event by string
 // User management
 app.get('/login',db.checkLogin)
-app.get('/register',db.createNewUser)
-app.get('/user/edit', db.editUserProfile)
+app.post('/register',db.createNewUser)
+app.post('/user/edit', db.editUserProfile)
