@@ -12,6 +12,9 @@ const createNewUser = async (request, response) => {
 
     if (username != null)
         await checkUsername(request, response, username)
+        if(checkUsername) {
+            return response.status(500).json({"result": false});
+        }
     /*if (email != null)
         await checkEmail(request, response, email)
 */
@@ -21,14 +24,14 @@ const checkUsername = async (request, response) => {
     const {username} = request.body;
     try {
         const result = await new Promise((resolve, reject) => {
-            pool.query(checkUsernameQuery, [username,], (error, results) => {
+            pool.query(checkUsernameQuery, [username], (error, results) => {
                 if (error) reject(error); else resolve(results.rows);
             });
         });
-        if (result.rows != null){
-            return response.status(400).json({"error": "Wrong password"});
+        if(result.length > 0) {
+            return true
         }
-        return response.status(200).json(result.rows);
+        return false
     }
     catch (error) {
         await logger(request, response, "Error", "Error creating event: " + error.message);
