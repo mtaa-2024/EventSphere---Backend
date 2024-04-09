@@ -16,13 +16,18 @@ const checkLogin = async (request, response) => {
         if (check.length > 0) {
             const hashedPassword = check[0].password
             const passwordMatch = await bcrypt.compare(hashedPassword, password)
-            if(!passwordMatch) { return response.status(400).json({"result": false}); }
+            if(!passwordMatch) {
+                await logger(request, response, "Info", "Wrong password for user with id: " + check.id);
+                return response.status(400).json({"result": false});
+            }
+
+            await logger(request, response, "Info", "Sucessfully logged user with id: " + check.id);
             return response.status(200).json({"result": true});
         }
-        await logger(request, response, "Info", "Sucessfully logged user with id: " + check.id);
+        await logger(request, response, "Error", "User not found");
         return response.status(200).json({"result": false});
     } catch (error) {
-        await logger(request, response, "Error", "Error while logging user: " + error.message);
+        await logger(request, response, "Warning", "Error while logging user: " + error.message);
         return response.status(500).json({ error: error.message });
     }
 }
