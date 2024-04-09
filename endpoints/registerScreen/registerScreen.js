@@ -5,10 +5,11 @@ const pool = require("../../core/connection").pool;
 
 const { createNewUserQuery, checkUsernameQuery, checkEmailQuery } = require('./utils');
 
-//Salt 10
-
 const createNewUser = async (request, response) => {
     const { username, email, password, secondPassword } = request.body;
+    if (password !== secondPassword) {
+        return response.status(400).json({"result": false, "text": "Passwords don't match"});
+    }
 
     if (password !== secondPassword){
         return response.status(400).json({"result": false, "text": "Passwords don't match"});

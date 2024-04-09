@@ -17,11 +17,11 @@ const checkLogin = async (request, response) => {
             const hashedPassword = check[0].password
             const passwordMatch = await bcrypt.compare(password, hashedPassword)
             if(!passwordMatch) {
-                await logger(request, response, "Info", "Wrong password for user with id: " + check.id);
+                await logger(request, response, "Info", "Wrong password for user with id: " + check[0].id);
                 return response.status(400).json({"result": false});
             }
 
-            await logger(request, response, "Info", "Successfully logged user with id: " + check.id);
+            await logger(request, response, "Info", "Successfully logged user with id: " + check[0].id);
             return response.status(200).json({"result": true});
         }
         await logger(request, response, "Error", "User not found");

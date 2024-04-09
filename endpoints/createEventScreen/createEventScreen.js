@@ -17,14 +17,14 @@ const createEvent = async (request, response) => {
 
         if (event_id != null) {
             await addPerformers(request, response, performers, event_id)
-            await logger(request, response, Level.INFO, "Created new event with id: " + event_id);
+            await logger(request, response, "Info", "Created new event with id: " + event_id);
             return response.status(200).json({"created_status": true});
         } else {
-            await logger(request, response, Level.ERROR, "Error creating event: " + error.message);
+            await logger(request, response, "Error", "Error creating event: " + error.message);
             return response.status(500).json({ "error": "Unexpected error occurred while creating event" });
         }
     } catch (error) {
-        await logger(request, response, Level.ERROR, "Error creating event: " + error.message);
+        await logger(request, response, "Error", "Error creating event: " + error.message);
         return response.status(500).json({ error: error.message });
     }
 }
@@ -39,9 +39,9 @@ const addPerformers = async (request, response, performers, event_id) => {
                 await pool.query(addPerformerNameQuery, [event_id, firstname, lastname]);
             }
         }));
-        await logger(request, response, Level.INFO, "Added performers to event with id: (" + event_id + ")")
+        await logger(request, response, "Info", "Added performers to event with id: (" + event_id + ")")
     } catch (error) {
-        await logger(request, response, Level.ERROR, "Error adding performers to event with id: (" + event_id + ") " + error.message);
+        await logger(request, response, "Error", "Error adding performers to event with id: (" + event_id + ") " + error.message);
         return response.status(500).json({ error: error.message });
     }
 }
