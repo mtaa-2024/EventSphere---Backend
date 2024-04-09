@@ -6,7 +6,7 @@ const { getUpcoming, getAttending, filterByCategory, searchEvent } = require('./
 const { checkLogin } = require('./loginScreen/loginScreen')
 const { createNewUser } = require('./registerScreen/registerScreen')
 const { editUserProfile } = require('./editProfileScreen/editProfileScreen')
-const { getProfile } = require('./profileScreen/profileScreen')
+const { getProfile, removeFriend } = require('./profileScreen/profileScreen')
 const { getFriendSearch } = require('./searchFriendScreen/searchFriendScreen')
 
 module.exports = {
@@ -23,5 +23,6 @@ module.exports = {
     createNewUser,
     editUserProfile,
     getProfile,
+    removeFriend,
     getFriendSearch
 }
