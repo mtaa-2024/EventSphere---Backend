@@ -1,6 +1,5 @@
 const { request, response, json } = require("express");
 const { logger } = require("../logs");
-const bcrypt = require('bcrypt')
 const pool = require("../../core/connection").pool;
 
 const { getProfileQuery } = require('./utils');
