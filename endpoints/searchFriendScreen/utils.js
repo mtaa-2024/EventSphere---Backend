@@ -1,5 +1,6 @@
 getFriendSearchQuery =
     '    SELECT\n' +
+    '    users.id, \n' +
     '    users.firstname,\n' +
     '    users.lastname,\n' +
     '    users.username,\n' +

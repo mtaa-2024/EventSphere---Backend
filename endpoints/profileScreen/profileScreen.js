@@ -27,7 +27,7 @@ const removeFriend = async (request, response) => {
                 if (error) reject(error); else resolve(results.rows);
             });
         });
-        return response.status(200).json(result);
+        return response.status(200).json({"result": true, "removed_id": friendId});
     } catch (error) {
         await logger(request, response, "Warning", "Error while removing friends: " + error.message);
         return response.status(500).json({ error: error.message });
