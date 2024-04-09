@@ -5,7 +5,7 @@ const pool = require("../../core/connection").pool;
 const { getProfileQuery } = require('./utils');
 
 const getProfile = async (request, response) => {
-    const { id } = request.body;
+    const id = request.body.id;
     try {
         const result = await new Promise((resolve, reject) => {
             pool.query(getProfileQuery, [id], (error, results) => {
