@@ -5,6 +5,8 @@ const pool = require("../../core/connection").pool;
 
 const { checkLoginQuery } = require('./utils');
 
+//Salt 10
+
 const checkLogin = async (request, response) => {
     const { username, email, password } = request.body;
     try {

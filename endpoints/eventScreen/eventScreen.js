@@ -6,7 +6,7 @@ const { getEventQuery, getEventCommentsQuery, getEventPerformersQuery } = requir
 const getEvent = async (request, response) => {
     const id = request.body.id;
     try {
-        const eventResults = await new Promise((resolve, reject) => {
+        const event = await new Promise((resolve, reject) => {
             pool.query(getEventQuery, [id], (error, results) => {
                 if (error) reject(error); else resolve(results.rows);
             });
@@ -14,7 +14,7 @@ const getEvent = async (request, response) => {
         const comments = await getEventComments(request, response, id);
         const performers = await getEventPerformers(request, response, id)
         await logger(request, response, Level.INFO, "Received information for event with id: " + id);
-        response.status(200).json({ 'event': eventResults, 'performers': performers, 'comments': comments });
+        response.status(200).json({ 'event': event, 'performers': performers, 'comments': comments });
     } catch (error) {
         await logger(request, response, Level.ERROR, "Error receiving event (" + id + ") information: " + error.message);
         response.status(500).json({ error: error.message });
