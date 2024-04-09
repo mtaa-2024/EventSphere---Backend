@@ -5,7 +5,7 @@ const pool = require("../../core/connection").pool;
 const { getProfileQuery, removeFriendQuery, getFriendsQuery } = require('./utils');
 
 const getProfile = async (request, response) => {
-    const { id } = request.body;
+    const id = request.body.id;
     try {
         const result = await new Promise((resolve, reject) => {
             pool.query(getProfileQuery, [id], (error, results) => {
@@ -41,7 +41,7 @@ const removeFriend = async (request, response) => {
                 if (error) reject(error); else resolve(results.rows);
             });
         });
-        return response.status(200).json(result);
+        return response.status(200).json({"result": true, "removed_id": friendId});
     } catch (error) {
         await logger(request, response, "Warning", "Error while removing friends: " + error.message);
         return response.status(500).json({ error: error.message });

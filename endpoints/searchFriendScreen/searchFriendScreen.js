@@ -5,14 +5,14 @@ const pool = require("../../core/connection").pool;
 const { getFriendSearchQuery } = require('./utils');
 
 const getFriendSearch = async (request, response) => {
-    const { friendsName} = request.body;
+    const { filter } = request.body;
     try {
         const result = await new Promise((resolve, reject) => {
-            pool.query(getFriendSearchQuery, [friendsName], (error, results) => {
+            pool.query(getFriendSearchQuery, [filter], (error, results) => {
                 if (error) reject(error); else resolve(results.rows);
             });
         });
-        return response.status(200).json(result);
+        return response.status(200).json({ "friends": result });
         }
         catch (error) {
         await logger(request, response, "Warning", "Error while logging user: " + error.message);

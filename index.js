@@ -26,6 +26,6 @@ app.get('/event/search', db.searchEvent); // Search for event by string
 app.get('/login',db.checkLogin)
 app.post('/register',db.createNewUser)
 app.post('/user/edit', db.editUserProfile)
-app.get('/profile', db.getProfile)
-app.delete('/profile', db.removeFriend)
 app.get('/friends/search', db.getFriendSearch)
+app.get('/profile', db.getProfile)
+app.delete('/friend', db.removeFriend)
