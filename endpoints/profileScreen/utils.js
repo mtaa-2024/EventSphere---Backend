@@ -8,6 +8,12 @@ getProfileQuery =
     'JOIN friends ON users.id = friends.user_id\n' +
     'WHERE users.id = $1'
 
+removeFriendQuery =
+    'DELETE\n'+
+    'FROM friends\n'+
+    'WHERE (user_id = $1 AND friend_id = $2)'
+
 module.exports = {
-    getProfileQuery
+    getProfileQuery,
+    removeFriendQuery
 }
