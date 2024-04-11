@@ -11,7 +11,6 @@ app.listen(config.port, () => {
 });
 
 app.get('/user', db.getUser)
-
 // Event endpoint
 app.get("/event", db.getEvent);  // Params = (id: int), Returns = Event information + performers + comments
 app.get('/event/comments', db.getUpdatedComments); // Params = (id: int), Returns = Event comments
@@ -25,7 +24,7 @@ app.get('/attending', db.getAttending); // Getting attending events Params = (us
 app.get('/categories', db.filterByCategory); // Filter events by category
 app.get('/event/search', db.searchEvent); // Search for event by string
 // User management
-app.get('/login',db.checkLogin)
+app.get('/login',db.getLoginData);
 app.post('/register',db.createNewUser)
 app.post('/user/edit', db.editUserProfile)
 app.get('/friends/search', db.getFriendSearch)
