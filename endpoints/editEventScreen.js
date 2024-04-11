@@ -1,9 +1,8 @@
-const { request, response, json } = require("express");
-const { logger } = require("../logs");
-const pool = require("../../core/connection").pool;
+const { logger } = require("./logs");
+const pool = require("../core/connection").pool;
+const { addPerformers } = require("./createEventScreen");
+const { updateTitleQuery, updateLocationQuery, updateDateQuery, updateDescriptionQuery, deletePerformersQuery} = require('./utils')
 
-const {updateTitleQuery, updateLocationQuery, updateDateQuery, updateDescriptionQuery, deletePerformersQuery, deleteEventQuery} = require('./utils')
-const { addPerformer } = require('../createEventScreen/createEventScreen')
 
 const updateEvent = async (request, response) => {
     const { id, title, description, location, date, performers } = request.body;
@@ -25,54 +24,54 @@ const updateEvent = async (request, response) => {
         await updatePerformers(request, response, id, performers)
 
     await logger(request, response, "Info", "Updated event with id: " + id);
-    return response.status(200).json({ "updated_status": true });
+    return response.status(200).json({ "result": true });
 }
 
-const updateTitle = async (request, response, event_id, title) => {
+const updateTitle = async (event_id, title) => {
     try {
         const result = await new Promise((resolve, reject) => {
             pool.query(updateTitleQuery, [event_id, title], (error, results) => {
-                if (error) reject(error); else resolve(results.rows);
+                error ? reject(error) : resolve(results.rows);
             });
         });
     } catch (error) {
-        await logger(request, response, "Error", "Error updating title for event (" + id + "): " + error.message);
+        await logger("Warning", "Error updating title for event (" + id + "): " + error.message);
     }
 }
 
-const updateLocation = async (request, response, event_id, location) => {
+const updateLocation = async ( event_id, location) => {
     try {
         const result = await new Promise((resolve, reject) => {
             pool.query(updateLocationQuery, [event_id, location], (error, results) => {
-                if (error) reject(error); else resolve(results.rows);
+                error ? reject(error) : resolve(results.rows);
             });
         });
     } catch (error) {
-        await logger(request, response, "Error", "Error updating location for event (" + id + "): " + error.message);
+        await logger( "Warning", "Error updating location for event (" + id + "): " + error.message);
     }
 }
 
-const updateDate = async (request, response, event_id, date) => {
+const updateDate = async (event_id, date) => {
     try {
         const result = await new Promise((resolve, reject) => {
             pool.query(updateDateQuery, [event_id, date], (error, results) => {
-                if (error) reject(error); else resolve(results.rows);
+                error ? reject(error) : resolve(results.rows);
             });
         });
     } catch (error) {
-        await logger(request, response, "Error", "Error updating date for event (" + id + "): " + error.message);
+        await logger("Warning", "Error updating date for event (" + id + "): " + error.message);
     }
 }
 
-const updateDescription = async (request, response, event_id, description) => {
+const updateDescription = async (event_id, description) => {
     try {
         const result = await new Promise((resolve, reject) => {
             pool.query(updateDescriptionQuery, [event_id, description], (error, results) => {
-                if (error) reject(error); else resolve(results.rows);
+                error ? reject(error) : resolve(results.rows);
             });
         });
     } catch (error) {
-        await logger(request, response, "Error", "Error updating description for event (" + id + "): " + error.message);
+        await logger("Warning", "Error updating description for event (" + id + "): " + error.message);
     }
 }
 
@@ -80,16 +79,16 @@ const updatePerformers = async (request, response, event_id, performers) => {
     try {
         const result = await new Promise((resolve, reject) => {
             pool.query(deletePerformersQuery, [event_id], (error, results) => {
-                if (error) reject(error); else resolve(results.rows);
+                error ? reject(error) : resolve(results.rows);
             });
         });
         try {
-            await addPerformer(request, response, event_id, performers)
+            await addPerformers(request, response, performers, event_id)
         } catch (error) {
-            await logger(request, response, "Error", "Error adding performers to event (" + event_id + "): " + error.message);
+            await logger("Warning", "Error adding performers to event (" + event_id + "): " + error.message);
         }
     } catch (error) {
-        await logger(request, response, "Error", "Error updating performers for event (" + event_id + "): " + error.message);
+        await logger("Warning", "Error updating performers for event (" + event_id + "): " + error.message);
     }
 }
 

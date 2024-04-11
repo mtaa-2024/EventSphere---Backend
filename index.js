@@ -10,6 +10,8 @@ app.listen(config.port, () => {
     console.log(`Server is running on port ${config.port}`);
 });
 
+app.get('/user', db.getUser)
+
 // Event endpoint
 app.get("/event", db.getEvent);  // Params = (id: int), Returns = Event information + performers + comments
 app.get('/event/comments', db.getUpdatedComments); // Params = (id: int), Returns = Event comments

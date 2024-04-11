@@ -1,16 +1,15 @@
-const { getUsers } = require('./template/template')
-const { getEvent, getUpdatedComments } = require('./eventScreen/eventScreen')
-const { createEvent } = require('./createEventScreen/createEventScreen')
-const { updateEvent } = require('./editEventScreen/editEventScreen')
-const { getUpcoming, getAttending, filterByCategory, searchEvent } = require('./homeScreen/homeScreen')
-const { checkLogin } = require('./loginScreen/loginScreen')
-const { createNewUser } = require('./registerScreen/registerScreen')
-const { editUserProfile } = require('./editProfileScreen/editProfileScreen')
-const { getProfile, removeFriend } = require('./profileScreen/profileScreen')
-const { getFriendSearch } = require('./searchFriendScreen/searchFriendScreen')
+const { getEvent, getUpdatedComments } = require('./eventScreen')
+const { createEvent } = require('./createEventScreen')
+const { updateEvent } = require('./editEventScreen')
+const { getUpcoming, getAttending, filterByCategory, searchEvent } = require('./homeScreen')
+const { getLoginData, getUser } = require('./loginScreen')
+const { createNewUser } = require('./registerScreen')
+const { editUserProfile } = require('./editProfileScreen')
+const { getProfile, removeFriend } = require('./profileScreen')
+const { getFriendSearch } = require('./searchFriendScreen')
 
 module.exports = {
-    getUsers,
+    getUser,
     getEvent,
     getUpdatedComments,
     createEvent,
@@ -19,7 +18,7 @@ module.exports = {
     getAttending,
     filterByCategory,
     searchEvent,
-    checkLogin,
+    getLoginData,
     createNewUser,
     editUserProfile,
     getProfile,
