@@ -5,10 +5,10 @@ const { checkIfUserExistsQuery , getUserQuery} = require('./utils');
 
 
 const getLoginData = async(request, response) => {
-    const { user, password } = request.query;
+    const { username, password } = request.query;
     try {
         const result = await new Promise((resolve, reject) => {
-            pool.query(checkIfUserExistsQuery, [user], (error, results) => {
+            pool.query(checkIfUserExistsQuery, [username], (error, results) => {
                 error ? reject(error) : resolve(results.rows);
             });
         });
@@ -25,8 +25,8 @@ const getLoginData = async(request, response) => {
                 return response.status(200).json({"result": true, "user": user});
             }
         }
-        await logger("Error", "User " + user + " not found");
-        return response.status(404).json({"result": false, "error": "User " + user + " not found"});
+        await logger("Error", "User " + username + " not found");
+        return response.status(404).json({"result": false, "error": "User " + username + " not found"});
     } catch ( error ) {
         await logger("Warning", "Error while getting login data. " + error.message);
         return response.status(500).json({"result": false, "error": "Error while getting login data. " + error.message});

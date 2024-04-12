@@ -87,14 +87,6 @@ searchEventQuery =
     'FROM events\n' +
     'WHERE LOWER(events.title) LIKE LOWER(CONCAT(\'%\', $1::text, \'%\'));'
 
-getProfileQuery =
-    'SELECT\n' +
-    'users.firstname\n,' +
-    'users.lastname\n,' +
-    'users.profile_image\n' +
-    'FROM users\n' +
-    'WHERE users.id = $1;'
-
 getFriendsQuery =
     'SELECT\n' +
     'users.firstname,\n' +
@@ -248,7 +240,6 @@ module.exports = {
     getAttendingQuery,
     filterByCategoryQuery,
     searchEventQuery,
-    getProfileQuery,
     getFriendSearchQuery,
     removeFriendQuery,
     getFriendsQuery,

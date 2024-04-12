@@ -28,5 +28,5 @@ app.get('/login',db.getLoginData);
 app.post('/register',db.createNewUser)
 app.post('/user/edit', db.editUserProfile)
 app.get('/friends/search', db.getFriendSearch)
-app.get('/profile', db.getProfile)
+app.get('/friends', db.getFriends)
 app.delete('/friend', db.removeFriend)
