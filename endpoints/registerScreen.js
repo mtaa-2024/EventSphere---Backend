@@ -1,7 +1,7 @@
 const { logger } = require("./logs");
 const bcrypt = require('bcrypt')
 const pool = require("../core/connection").pool;
-const { getUser } = require("./init");
+const { getUser } = require("./loginScreen");
 const { createNewUserQuery, checkUsernameQuery, checkEmailQuery } = require('./utils');
 
 const createNewUser = async (request, response) => {
@@ -51,8 +51,9 @@ const importUserToDatabase = async (request, response, username, email, password
         });
         const user_id = result[0].id;
         if(user_id !== null) {
+            const user = await getUser(user_id)
             await logger("Info", "Created new user with id: " + user_id);
-            return response.status(200).json({"result": true, "user": getUser(user_id)});
+            return response.status(200).json({"result": true, "user": user});
         }
     }
     catch (error) {
