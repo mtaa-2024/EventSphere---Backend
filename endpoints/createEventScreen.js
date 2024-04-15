@@ -3,10 +3,10 @@ const pool = require("../core/connection").pool;
 const { createEventQuery, addPerformerIdQuery, addPerformerNameQuery } = require('./utils');
 
 const createEvent = async (request, response) => {
-    const { user_id, title, description, location, closing_date, performers } = request.body;
+    const { user_id, title, description, location, date, performers } = request.body;
     try {
         const createdEvent = await new Promise((resolve, reject) => {
-            pool.query(createEventQuery, [title, description, user_id, location, closing_date], (error, results) => {
+            pool.query(createEventQuery, [title, description, user_id, location, date], (error, results) => {
                 error ? reject(error) : resolve(results.rows);
             });
         });

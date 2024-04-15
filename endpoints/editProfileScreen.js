@@ -1,7 +1,7 @@
 const { logger } = require("./logs");
 const pool = require("../core/connection").pool;
 const bcrypt = require("bcrypt");
-const { editFirstnameQuery, editLastnameQuery, checkOldEmailQuery, editEmailQuery, checkOldPasswordQuery, editNewPasswordQuery, editProfileImageQuery} = require('./utils');
+const { editFirstnameQuery, editLastnameQuery, checkOldEmailQuery, editEmailQuery, checkOldPasswordQuery, editNewPasswordQuery, editProfileImageQuery, insertImageQuery } = require('./utils');
 
 // TODO
 // Tato cast sa este bude prisposobovat
@@ -118,6 +118,24 @@ const editProfileImage = async (id, profileImage) => {
     }
 }
 
+const insertProfileImage = async (request, response) => {
+    const { id, image } = request.query;
+    try {
+        const result = await new Promise((resolve, reject) => {
+            pool.query(insertImageQuery, [id, image], (error, results) => {
+                error ? reject(error) : resolve(results.rows);
+            });
+        });
+        await logger("Info", "Updated profile img for user with id: " + id);
+        return response.status(200).json({"result": true });
+    } catch (error) {
+        await logger("Warning", "Error while inserting profile img for user with id (" + id + "): " + error.message);
+        return response.status(500).json({"result": false, "error": "Error while inserting profile img for user with id (" + id + "): " + error.message});
+    }
+
+}
+
 module.exports = {
-    editUserProfile
+    editUserProfile,
+    insertProfileImage
 }

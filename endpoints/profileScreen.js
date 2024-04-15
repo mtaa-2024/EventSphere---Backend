@@ -1,6 +1,6 @@
 const { logger } = require("./logs");
 const pool = require("../core/connection").pool;
-const { removeFriendQuery, getFriendsQuery } = require('./utils');
+const { removeFriendQuery, getFriendsQuery} = require('./utils');
 
 const getFriends = async (request, response) => {
     const id = request.query.id;
@@ -14,7 +14,7 @@ const getFriends = async (request, response) => {
         return response.status(200).json({"result": true, "friends": friends});
     } catch (error) {
         await logger("Warning", "Error while receiving friends for user with id (" + id + "): " + error.message);
-        return response.status(500).json({"result": false, "error": "Errpr while receiving friends for user with id (" + id + "): " + error.message});
+        return response.status(500).json({"result": false, "error": "Error while receiving friends for user with id (" + id + "): " + error.message});
     }
 }
 
@@ -32,6 +32,7 @@ const removeFriend = async (request, response) => {
         return response.status(500).json({"result": false, "error": "\"Error while removing friend with id (" + friendId + "):" + error.message});
     }
 }
+
 
 module.exports = {
     getFriends,

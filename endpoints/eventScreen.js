@@ -23,7 +23,7 @@ const getEvent = async (request, response) => {
 }
 
 const getUpdatedComments = async(request, response) => {
-    const id = request.body.id
+    const id = request.query.id
     try {
         const comments = await getEventComments(id)
         if (comments != null) {

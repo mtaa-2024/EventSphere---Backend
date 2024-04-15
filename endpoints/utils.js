@@ -214,7 +214,7 @@ updateDateQuery =
 createEventQuery =
     'INSERT INTO \n' +
     '    events \n' +
-    '    (title, description, owner_id, location, created_at, closing_at) \n' +
+    '    (title, description, owner_id, location, created_at, estimated_end) \n' +
     'VALUES ($1, $2, $3, $4, NOW(), $5) \n' +
     'RETURNING events.id;'
 
@@ -229,6 +229,11 @@ addPerformerNameQuery =
     '    event_performers\n' +
     '    (event_id, firstname, lastname)\n' +
     'VALUES ($1, $2, $3);'
+
+insertImageQuery =
+    'UPDATE users\n' +
+    'SET profile_image = $2 \n' +
+    'WHERE users.id = $1;'
 
 module.exports = {
     checkIfUserExistsQuery,
@@ -260,5 +265,6 @@ module.exports = {
     updateDateQuery,
     createEventQuery,
     addPerformerIdQuery,
-    addPerformerNameQuery
+    addPerformerNameQuery,
+    insertImageQuery
 }

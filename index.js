@@ -2,6 +2,7 @@ const config = require("./config.json")
 const express = require("express");
 const bodyParser = require('body-parser');
 const db = require("./endpoints/init")
+const {insertProfileImage} = require("./endpoints/editProfileScreen");
 
 const app = express();
 app.use(bodyParser.json());
@@ -25,6 +26,9 @@ app.get('/event/search', db.searchEvent);
 app.get('/login',db.getLoginData);
 app.post('/register',db.createNewUser)
 app.post('/user/edit', db.editUserProfile)
+
 app.get('/friends/search', db.getFriendSearch)
 app.get('/friends', db.getFriends)
 app.delete('/friend', db.removeFriend)
+
+app.put('/profile/image', db.insertProfileImage)
