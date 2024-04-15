@@ -39,8 +39,8 @@ const getUpdatedComments = async(request, response) => {
 
 }
 
-const getEventComments = async (request, response, id) => {
-    const comments = new Promise((resolve, reject) => {
+const getEventComments = async (id) => {
+    const comments = await new Promise((resolve, reject) => {
         pool.query(getEventCommentsQuery, [id], (error, results) => {
             error ? reject(error) : resolve(results.rows);
         });
@@ -48,8 +48,8 @@ const getEventComments = async (request, response, id) => {
     return comments.length > 0 ? comments : null;
 }
 
-const getEventPerformers = async (request, response, id) => {
-    const performers = new Promise((resolve, reject) => {
+const getEventPerformers = async (id) => {
+    const performers = await new Promise((resolve, reject) => {
         pool.query(getEventPerformersQuery, [id], (error, results) => {
             error ? reject(error) : resolve(results.rows);
         });

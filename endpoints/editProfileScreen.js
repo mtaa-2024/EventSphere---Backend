@@ -6,7 +6,7 @@ const { editFirstnameQuery, editLastnameQuery, checkOldEmailQuery, editEmailQuer
 // TODO
 // Tato cast sa este bude prisposobovat
 
-const editUserProfile = async (request, response) => {
+const   editUserProfile = async (request, response) => {
     const { id, firstname, lastname, oldEmail, newEmail, oldPassword, newPassword, profileImage } = request.body;
 
     if (id == null) {
