@@ -3,8 +3,6 @@ const pool = require("../core/connection").pool;
 const bcrypt = require("bcrypt");
 const { editFirstnameQuery, editLastnameQuery, checkOldEmailQuery, editEmailQuery, checkOldPasswordQuery, editNewPasswordQuery, editProfileImageQuery, insertImageQuery } = require('./utils');
 
-// TODO
-// Tato cast sa este bude prisposobovat
 
 const   editUserProfile = async (request, response) => {
     const { id, firstname, lastname, oldEmail, newEmail, oldPassword, newPassword, profileImage } = request.body;

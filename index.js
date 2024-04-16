@@ -35,3 +35,4 @@ app.get('/upcoming/owner', db.getUpcomingOwner)
 app.get('/expired/owner', db.getExpiredOwner)
 
 app.put('/profile/image', db.insertProfileImage)
+app.get('/user', db.getUser)
