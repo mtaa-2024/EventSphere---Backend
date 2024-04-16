@@ -137,13 +137,13 @@ const insertProfileImage = async (request, response) => {
 const getUpdatedUser = async (request, response) => {
     const id  = request.query.id;
     try {
-        const result = await new Promise((resolve, reject) => {
+        const user = await new Promise((resolve, reject) => {
             pool.query(getUpdatedUserQuery, [id], (error, results) => {
                 error ? reject(error) : resolve(results.rows);
             });
         });
         await logger("Info", "Get updated user with id: " + id);
-        return response.status(200).json({"result": true });
+        return response.status(200).json({"result": true, "user": user});
     } catch (error) {
         await logger("Warning", "Error getting updated data for user (" + id + "): " + error.message);
         return response.status(500).json({"result": false, "error": "Error while getting updated user with id (" + id + "): " + error.message});
