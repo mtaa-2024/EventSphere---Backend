@@ -1,10 +1,10 @@
 const { logger } = require("./logs");
 const pool = require("../core/connection").pool;
 const bcrypt = require("bcrypt");
-const { editFirstnameQuery, editLastnameQuery, checkOldEmailQuery, editEmailQuery, checkOldPasswordQuery, editNewPasswordQuery, editProfileImageQuery, insertImageQuery } = require('./utils');
+const { editFirstnameQuery, editLastnameQuery, checkOldEmailQuery, editEmailQuery, checkOldPasswordQuery, editNewPasswordQuery, editProfileImageQuery, insertImageQuery, getUpdatedUserQuery } = require('./utils');
 
 
-const   editUserProfile = async (request, response) => {
+const editUserProfile = async (request, response) => {
     const { id, firstname, lastname, oldEmail, newEmail, oldPassword, newPassword, profileImage } = request.body;
 
     if (id == null) {
@@ -133,7 +133,25 @@ const insertProfileImage = async (request, response) => {
 
 }
 
+
+const getUpdatedUser = async (request, response) => {
+    const id  = request.query.id;
+    try {
+        const result = await new Promise((resolve, reject) => {
+            pool.query(getUpdatedUserQuery, [id], (error, results) => {
+                error ? reject(error) : resolve(results.rows);
+            });
+        });
+        await logger("Info", "Get updated user with id: " + id);
+        return response.status(200).json({"result": true });
+    } catch (error) {
+        await logger("Warning", "Error getting updated data for user (" + id + "): " + error.message);
+        return response.status(500).json({"result": false, "error": "Error while getting updated user with id (" + id + "): " + error.message});
+    }
+}
+
 module.exports = {
     editUserProfile,
-    insertProfileImage
+    insertProfileImage,
+    getUpdatedUser
 }

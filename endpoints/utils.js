@@ -154,13 +154,13 @@ editEmailQuery =
 
 checkOldEmailQuery =
     'SELECT\n' +
-    'users.email\n' +
+    '   users.email\n' +
     'FROM users\n' +
     'WHERE users.id = $1 AND users.email = $2'
 
 checkOldPasswordQuery =
     'SELECT\n' +
-    'users.password\n' +
+    '   users.password\n' +
     'FROM users\n' +
     'WHERE users.id = $1'
 
@@ -255,6 +255,12 @@ getExpiredEventsQuery =
     'WHERE events.owner_id = $1 AND events.estimated_end < NOW()\n' +
     'ORDER BY events.estimated_end;'
 
+getUpdatedUserQuery =
+    'SELECT \n' +
+    '* \n' +
+    'FROM users \n' +
+    'WHERE users.id = $1;'
+
 module.exports = {
     checkIfUserExistsQuery,
     getUserQuery,
@@ -288,5 +294,6 @@ module.exports = {
     addPerformerNameQuery,
     insertImageQuery,
     getUpcomingEventsQuery,
-    getExpiredEventsQuery
+    getExpiredEventsQuery,
+    getUpdatedUserQuery
 }
