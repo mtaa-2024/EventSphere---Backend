@@ -235,6 +235,26 @@ insertImageQuery =
     'SET profile_image = $2 \n' +
     'WHERE users.id = $1;'
 
+getUpcomingEventsQuery =
+    'SELECT \n' +
+    '   events.id, \n' +
+    '   events.title, \n' +
+    '   events.location, \n' +
+    '   events.estimated_end \n' +
+    'FROM events \n' +
+    'WHERE events.owner_id = $1 AND events.estimated_end > NOW()\n' +
+    'ORDER BY events.estimated_end;'
+
+getExpiredEventsQuery =
+    'SELECT \n' +
+    '   events.id, \n' +
+    '   events.title, \n' +
+    '   events.location, \n' +
+    '   events.estimated_end \n' +
+    'FROM events \n' +
+    'WHERE events.owner_id = $1 AND events.estimated_end < NOW()\n' +
+    'ORDER BY events.estimated_end;'
+
 module.exports = {
     checkIfUserExistsQuery,
     getUserQuery,
@@ -266,5 +286,7 @@ module.exports = {
     createEventQuery,
     addPerformerIdQuery,
     addPerformerNameQuery,
-    insertImageQuery
+    insertImageQuery,
+    getUpcomingEventsQuery,
+    getExpiredEventsQuery
 }

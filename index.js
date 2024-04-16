@@ -31,4 +31,7 @@ app.get('/friends/search', db.getFriendSearch)
 app.get('/friends', db.getFriends)
 app.delete('/friend', db.removeFriend)
 
+app.get('/upcoming/owner', db.getUpcomingOwner)
+app.get('/expired/owner', db.getExpiredOwner)
+
 app.put('/profile/image', db.insertProfileImage)
