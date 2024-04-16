@@ -89,9 +89,9 @@ searchEventQuery =
 
 getFriendsQuery =
     'SELECT\n' +
+    'users.id, \n' +
     'users.firstname,\n' +
     'users.lastname,\n' +
-    'users.username,\n' +
     'users.profile_image\n' +
     'FROM users\n' +
     'INNER JOIN friends ON users.id = friends.friend_id\n' +

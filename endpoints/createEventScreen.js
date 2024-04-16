@@ -16,7 +16,7 @@ const createEvent = async (request, response) => {
         if (event_id != null) {
             await addPerformers(request, response, performers, event_id)
             await logger("Info", "Created new event with id: " + event_id);
-            return response.status(200).json({"result": true});
+            return response.status(200).json({"result": true, "id": event_id});
         } else {
             await logger("Error", "Error creating event" );
             return response.status(400).json({ "result": false, "error": "Unexpected error occurred while creating event" });
