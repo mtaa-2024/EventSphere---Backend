@@ -7,6 +7,7 @@ const { createNewUser } = require('./registerScreen')
 const { editUserProfile, insertProfileImage} = require('./editProfileScreen')
 const { getFriends, removeFriend } = require('./profileScreen')
 const { getFriendSearch } = require('./searchFriendScreen')
+const { getUpcomingOwner, getExpiredOwner } = require('./eventCenterScreen')
 
 module.exports = {
     getUser,
@@ -24,5 +25,7 @@ module.exports = {
     getFriends,
     removeFriend,
     getFriendSearch,
-    insertProfileImage
+    insertProfileImage,
+    getUpcomingOwner,
+    getExpiredOwner,
 }
