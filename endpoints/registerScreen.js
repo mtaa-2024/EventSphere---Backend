@@ -6,11 +6,15 @@ const { createNewUserQuery, checkUsernameQuery, checkEmailQuery } = require('./u
 
 const createNewUser = async (request, response) => {
     const { username, email, password } = request.body;
-    if (username != null && await checkUsername(password))
-        return response.status(400).json({"result": false, "text": "Username is already in use"});
-    if (email != null && await checkEmail(email))
-        return response.status(400).json({"result": false, "text": "Email is already in use"});
-    return await importUserToDatabase(request, response, username, email, password)
+    if(username === "Username" || email === "Email"){
+        return response.status(400).json({"result": false, "text": "Missing data"});
+    }else {
+        if (await checkUsername(password))
+            return response.status(400).json({"result": false, "text": "Username is already in use"});
+        if (await checkEmail(email))
+            return response.status(400).json({"result": false, "text": "Email is already in use"});
+        return await importUserToDatabase(request, response, username, email, password)
+    }
 }
 
 const checkUsername = async (username) => {
