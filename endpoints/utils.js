@@ -26,6 +26,7 @@ getEventQuery =
 
 getEventCommentsQuery =
     'SELECT \n' +
+    '    users.id, \n' +
     '    users.firstname, \n' +
     '    users.lastname, \n' +
     '    users.profile_image, \n' +
@@ -261,6 +262,12 @@ getUpdatedUserQuery =
     'FROM users \n' +
     'WHERE users.id = $1;'
 
+insertCommentQuery =
+    'INSERT INTO\n' +
+    '   event_comments \n' +
+    '   (event_id, user_id, created_at, text) \n' +
+    'VALUES ($2, $1, NOW(), $3);'
+
 module.exports = {
     checkIfUserExistsQuery,
     getUserQuery,
@@ -295,5 +302,6 @@ module.exports = {
     insertImageQuery,
     getUpcomingEventsQuery,
     getExpiredEventsQuery,
-    getUpdatedUserQuery
+    getUpdatedUserQuery,
+    insertCommentQuery
 }

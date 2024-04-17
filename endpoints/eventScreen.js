@@ -1,6 +1,6 @@
 const { logger } = require("./logs");
 const pool = require("../core/connection").pool
-const { getEventQuery, getEventCommentsQuery, getEventPerformersQuery } = require('./utils')
+const { getEventQuery, getEventCommentsQuery, getEventPerformersQuery, insertCommentQuery } = require('./utils')
 
 const getEvent = async (request, response) => {
     const id = request.query.id;
@@ -57,7 +57,23 @@ const getEventPerformers = async (id) => {
     return performers.length > 0 ? performers : null;
 }
 
+const insertComment = async(request, response) => {
+    const {id, event_id, commentValue} = request.body;
+    try {
+        const comment = await new Promise((resolve, reject) => {
+            pool.query(insertCommentQuery, [id, event_id, commentValue], (error, results) => {
+                error ? reject(error) : resolve(results.rows);
+            });
+        });
+        return response.status(200).json({'result': true, 'comment': comment});
+    } catch (error) {
+        await logger("Warning", "Error inserting comment for event (" + id + ") information: " + error.message);
+        return response.status(500).json({"result":false, "error": error.message });
+    }
+}
+
 module.exports = {
     getEvent,
-    getUpdatedComments
+    getUpdatedComments,
+    insertComment
 }

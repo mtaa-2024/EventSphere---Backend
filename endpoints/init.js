@@ -1,4 +1,4 @@
-const { getEvent, getUpdatedComments } = require('./eventScreen')
+const { getEvent, getUpdatedComments, insertComment } = require('./eventScreen')
 const { createEvent } = require('./createEventScreen')
 const { updateEvent } = require('./editEventScreen')
 const { getUpcoming, getAttending, filterByCategory, searchEvent } = require('./homeScreen')
@@ -28,5 +28,6 @@ module.exports = {
     insertProfileImage,
     getUpcomingOwner,
     getExpiredOwner,
-    getUpdatedUser
+    getUpdatedUser,
+    insertComment
 }

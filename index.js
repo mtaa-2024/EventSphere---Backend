@@ -36,3 +36,5 @@ app.get('/expired/owner', db.getExpiredOwner)
 
 app.put('/profile/image', db.insertProfileImage)
 app.get('/user', db.getUpdatedUser)
+
+app.post('/comment', db.insertComment)
