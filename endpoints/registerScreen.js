@@ -5,16 +5,13 @@ const { getUser } = require("./loginScreen");
 const { createNewUserQuery, checkUsernameQuery, checkEmailQuery } = require('./utils');
 
 const createNewUser = async (request, response) => {
+    console.log(request.body);
     const { username, email, password } = request.body;
-    if(username === "Username" || email === "Email"){
-        return response.status(400).json({"result": false, "text": "Missing data"});
-    }else {
-        if (await checkUsername(password))
-            return response.status(400).json({"result": false, "text": "Username is already in use"});
-        if (await checkEmail(email))
-            return response.status(400).json({"result": false, "text": "Email is already in use"});
-        return await importUserToDatabase(request, response, username, email, password)
-    }
+    if (await checkUsername(username))
+        return response.status(200).json({"result": false, "text": "Username is already in use"});
+    if (await checkEmail(email))
+        return response.status(200).json({"result": false, "text": "Email is already in use"});
+    return await importUserToDatabase(request, response, username, email, password)
 }
 
 const checkUsername = async (username) => {
