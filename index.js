@@ -30,6 +30,7 @@ app.post('/user/edit', db.editUserProfile)
 app.get('/friends/search', db.getFriendSearch)
 app.get('/friends', db.getFriends)
 app.delete('/friend', db.removeFriend)
+app.post('/friend/add', db.addFriend)
 
 app.get('/upcoming/owner', db.getUpcomingOwner)
 app.get('/expired/owner', db.getExpiredOwner)

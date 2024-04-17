@@ -5,7 +5,7 @@ const { getUpcoming, getAttending, filterByCategory, searchEvent } = require('./
 const { getLoginData, getUser} = require('./loginScreen')
 const { createNewUser } = require('./registerScreen')
 const { editUserProfile, insertProfileImage, getUpdatedUser} = require('./editProfileScreen')
-const { getFriends, removeFriend } = require('./profileScreen')
+const { getFriends, removeFriend, addFriend} = require('./profileScreen')
 const { getFriendSearch } = require('./searchFriendScreen')
 const { getUpcomingOwner, getExpiredOwner } = require('./eventCenterScreen')
 
@@ -29,5 +29,6 @@ module.exports = {
     getUpcomingOwner,
     getExpiredOwner,
     getUpdatedUser,
-    insertComment
+    insertComment,
+    addFriend
 }

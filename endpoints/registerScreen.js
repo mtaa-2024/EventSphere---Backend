@@ -5,7 +5,6 @@ const { getUser } = require("./loginScreen");
 const { createNewUserQuery, checkUsernameQuery, checkEmailQuery } = require('./utils');
 
 const createNewUser = async (request, response) => {
-    console.log(request.body);
     const { username, email, password } = request.body;
     if (await checkUsername(username))
         return response.status(200).json({"result": false, "text": "Username is already in use"});

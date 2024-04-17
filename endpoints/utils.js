@@ -268,6 +268,12 @@ insertCommentQuery =
     '   (event_id, user_id, created_at, text) \n' +
     'VALUES ($2, $1, NOW(), $3);'
 
+addFriendQuery =
+    'INSERT INTO\n' +
+    '   friends\n' +
+    '   (user_id, friend_id)\n' +
+    'VALUES ($1,$2);'
+
 module.exports = {
     checkIfUserExistsQuery,
     getUserQuery,
@@ -303,5 +309,6 @@ module.exports = {
     getUpcomingEventsQuery,
     getExpiredEventsQuery,
     getUpdatedUserQuery,
-    insertCommentQuery
+    insertCommentQuery,
+    addFriendQuery
 }
