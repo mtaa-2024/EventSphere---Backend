@@ -3,7 +3,18 @@ const pool = require("../core/connection").pool;
 const { createEventQuery, addPerformerIdQuery, addPerformerNameQuery } = require('./utils');
 
 const createEvent = async (request, response) => {
-    const { user_id, title, description, location, date, performers } = request.body;
+    const { user_id, title, description, location, estimated_end, performers } = request.body;
+
+    const parts = estimated_end.split(/\/|\s|:/);
+
+    const date = new Date(
+        parseInt(parts[2]),
+        parseInt(parts[1]) - 1,
+        parseInt(parts[0]),
+        parseInt(parts[3]),
+        parseInt(parts[4])
+    );
+
     try {
         const createdEvent = await new Promise((resolve, reject) => {
             pool.query(createEventQuery, [title, description, user_id, location, date], (error, results) => {
@@ -19,7 +30,7 @@ const createEvent = async (request, response) => {
             return response.status(200).json({"result": true, "id": event_id});
         } else {
             await logger("Error", "Error creating event" );
-            return response.status(400).json({ "result": false, "error": "Unexpected error occurred while creating event" });
+            return response.status(200).json({ "result": false, "error": "Unexpected error occurred while creating event" });
         }
     } catch (error) {
         await logger("Warning", "Error creating event: " + error.message);
