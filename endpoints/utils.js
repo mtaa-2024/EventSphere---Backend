@@ -215,8 +215,8 @@ updateDateQuery =
 createEventQuery =
     'INSERT INTO \n' +
     '    events \n' +
-    '    (title, description, owner_id, location, created_at, estimated_end) \n' +
-    'VALUES ($1, $2, $3, $4, NOW(), $5) \n' +
+    '    (title, description, owner_id, location, latitude, longitude, created_at, estimated_end) \n' +
+    'VALUES ($1, $2, $3, $4, $5, $6, NOW(), TO_TIMESTAMP($7, \'DD.MM.YYYY HH24:MI\')) \n' +
     'RETURNING events.id;'
 
 addPerformerIdQuery =

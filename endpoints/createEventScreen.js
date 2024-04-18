@@ -3,21 +3,11 @@ const pool = require("../core/connection").pool;
 const { createEventQuery, addPerformerIdQuery, addPerformerNameQuery } = require('./utils');
 
 const createEvent = async (request, response) => {
-    const { user_id, title, description, location, estimated_end, performers } = request.body;
-
-    const parts = estimated_end.split(/\/|\s|:/);
-
-    const date = new Date(
-        parseInt(parts[2]),
-        parseInt(parts[1]) - 1,
-        parseInt(parts[0]),
-        parseInt(parts[3]),
-        parseInt(parts[4])
-    );
+    const { user_id, title, description, location, latitude, longitude, estimated_end, performers } = request.body;
 
     try {
         const createdEvent = await new Promise((resolve, reject) => {
-            pool.query(createEventQuery, [title, description, user_id, location, date], (error, results) => {
+            pool.query(createEventQuery, [title, description, user_id, location, latitude, longitude, estimated_end], (error, results) => {
                 error ? reject(error) : resolve(results.rows);
             });
         });
