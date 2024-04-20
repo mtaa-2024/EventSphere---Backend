@@ -7,16 +7,25 @@ checkIfUserExistsQuery =
 
 getUserQuery =
     'SELECT \n' +
-    '* \n' +
+    '   users.id, \n' +
+    '   users.username, \n' +
+    '   users.email, \n' +
+    '   users.firstname, \n' +
+    '   users.lastname, \n' +
+    '   users.profile_image \n' +
     'FROM users \n' +
     'WHERE users.id = $1;'
 
 getEventQuery =
     'SELECT \n' +
+    '    events.id, \n' +
     '    events.title, \n' +
     '    events.description, \n' +
     '    events.location, \n' +
+    '    events.latitude, \n' +
+    '    events.longitude, \n' +
     '    TO_CHAR(events.estimated_end::timestamptz, \'DD.MM.YYYY HH24:MI\') as estimated_end, \n' +
+    '    users.id as owner_id, \n' +
     '    users.firstname, \n' +
     '    users.lastname, \n' +
     '    users.profile_image \n' +
@@ -266,13 +275,20 @@ insertCommentQuery =
     'INSERT INTO\n' +
     '   event_comments \n' +
     '   (event_id, user_id, created_at, text) \n' +
-    'VALUES ($2, $1, NOW(), $3);'
+    'VALUES ($2, $1, NOW(), $3) \n' +
+    'RETURNING *;'
 
 addFriendQuery =
     'INSERT INTO\n' +
     '   friends\n' +
     '   (user_id, friend_id)\n' +
     'VALUES ($1,$2);'
+
+eventExistsQuery = '' +
+    'SELECT \n' +
+    '* \n' +
+    'FROM event_comments \n' +
+    'WHERE event_comments.user_id = $1 AND event_comments.event_id = $2;'
 
 module.exports = {
     checkIfUserExistsQuery,
@@ -310,5 +326,6 @@ module.exports = {
     getExpiredEventsQuery,
     getUpdatedUserQuery,
     insertCommentQuery,
-    addFriendQuery
+    addFriendQuery,
+    eventExistsQuery
 }

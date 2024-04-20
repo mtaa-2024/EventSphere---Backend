@@ -62,7 +62,39 @@ const importUserToDatabase = async (request, response, username, email, password
     }
 }
 
+const checkUsernameExists = async (request, response) => {
+    const input = request.query.input;
+    try {
+        const result = await new Promise((resolve, reject) => {
+            pool.query(checkUsernameQuery, [input], (error, results) => {
+                error ? reject(error) : resolve(results.rows);
+            });
+        });
+        return response.status(200).json({"result": result.length > 0});
+    }
+    catch (error) {
+        return response.status(500).json({"result": false});
+    }
+}
+
+const checkEmailExists = async (request, response) => {
+    const input = request.query.input;
+    try {
+        const result = await new Promise((resolve, reject) => {
+            pool.query(checkEmailQuery, [input], (error, results) => {
+                error ? reject(error) : resolve(results.rows);
+            });
+        });
+
+        return response.status(200).json({"result": result.length > 0});
+    }
+    catch (error) {
+        return response.status(500).json({"result": false});
+    }
+}
 
 module.exports = {
-    createNewUser
+    createNewUser,
+    checkUsernameExists,
+    checkEmailExists
 }

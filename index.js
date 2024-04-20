@@ -39,3 +39,6 @@ app.put('/profile/image', db.insertProfileImage)
 app.get('/user', db.getUpdatedUser)
 
 app.post('/comment', db.insertComment)
+
+app.get('/username', db.checkUsernameExists)
+app.get('/email', db.checkEmailExists)

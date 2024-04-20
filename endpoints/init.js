@@ -3,7 +3,7 @@ const { createEvent } = require('./createEventScreen')
 const { updateEvent } = require('./editEventScreen')
 const { getUpcoming, getAttending, filterByCategory, searchEvent } = require('./homeScreen')
 const { getLoginData, getUser} = require('./loginScreen')
-const { createNewUser } = require('./registerScreen')
+const { createNewUser, checkUsernameExists, checkEmailExists} = require('./registerScreen')
 const { editUserProfile, insertProfileImage, getUpdatedUser} = require('./editProfileScreen')
 const { getFriends, removeFriend, addFriend} = require('./profileScreen')
 const { getFriendSearch } = require('./searchFriendScreen')
@@ -30,5 +30,7 @@ module.exports = {
     getExpiredOwner,
     getUpdatedUser,
     insertComment,
-    addFriend
+    addFriend,
+    checkUsernameExists,
+    checkEmailExists,
 }

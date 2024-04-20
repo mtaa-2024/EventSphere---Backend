@@ -17,7 +17,7 @@ const getLoginData = async(request, response) => {
             const passwordMatch = await bcrypt.compare(password, hashedPassword);
             if(!passwordMatch) {
                 await logger("Error", "Wrong password for user with id: " + result[0].id);
-                return response.status(403).json({"result": false, "text": "Wrong password for user with id: " + result[0].id});
+                return response.status(200).json({"result": false, "text": "Wrong password for user with id: " + result[0].id});
             }
             const user = await getUser(result[0].id);
             if (user != null) {
@@ -26,7 +26,7 @@ const getLoginData = async(request, response) => {
             }
         }
         await logger("Error", "User " + username + " not found");
-        return response.status(404).json({"result": false, "error": "User " + username + " not found"});
+        return response.status(200).json({"result": false, "error": "User " + username + " not found"});
     } catch ( error ) {
         await logger("Warning", "Error while getting login data. " + error.message);
         return response.status(500).json({"result": false, "error": "Error while getting login data. " + error.message});

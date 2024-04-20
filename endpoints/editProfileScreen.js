@@ -117,7 +117,7 @@ const editProfileImage = async (id, profileImage) => {
 }
 
 const insertProfileImage = async (request, response) => {
-    const { id, image } = request.query;
+    const { id, image } = request.body;
     try {
         const result = await new Promise((resolve, reject) => {
             pool.query(insertImageQuery, [id, image], (error, results) => {
