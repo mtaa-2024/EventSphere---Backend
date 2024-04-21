@@ -5,12 +5,12 @@ const { getUser } = require("./loginScreen");
 const { createNewUserQuery, checkUsernameQuery, checkEmailQuery } = require('./utils');
 
 const createNewUser = async (request, response) => {
-    const { username, email, password } = request.body;
+    const { username, email, password , locale} = request.body;
     if (await checkUsername(username))
-        return response.status(200).json({"result": false, "text": "Username is already in use"});
+        return response.status(200).json({"result": false, "text": (locale === 'en') ? "Username is already in use" : "Použivateľské meno už je použité"});
     if (await checkEmail(email))
-        return response.status(200).json({"result": false, "text": "Email is already in use"});
-    return await importUserToDatabase(request, response, username, email, password)
+        return response.status(200).json({"result": false, "text": (locale === 'en') ? "Email is already in use" : "Email už je použitý iným použivatelom"});
+    return await importUserToDatabase(request, response, username, email, password, locale)
 }
 
 const checkUsername = async (username) => {
@@ -41,7 +41,7 @@ const checkEmail = async (email) => {
     }
 }
 
-const importUserToDatabase = async (request, response, username, email, password) => {
+const importUserToDatabase = async (request, response, username, email, password, locale) => {
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const result = await new Promise((resolve, reject) => {
@@ -63,14 +63,14 @@ const importUserToDatabase = async (request, response, username, email, password
 }
 
 const checkUsernameExists = async (request, response) => {
-    const input = request.query.input;
+    const { input, locale } = request.query;
     try {
         const result = await new Promise((resolve, reject) => {
             pool.query(checkUsernameQuery, [input], (error, results) => {
                 error ? reject(error) : resolve(results.rows);
             });
         });
-        return response.status(200).json({"result": result.length > 0});
+        return response.status(200).json({"result": result.length > 0, "text": (locale === 'en') ? "Username already in use" : "Username už je použitý iným použivateľom"});
     }
     catch (error) {
         return response.status(500).json({"result": false});
@@ -78,7 +78,7 @@ const checkUsernameExists = async (request, response) => {
 }
 
 const checkEmailExists = async (request, response) => {
-    const input = request.query.input;
+    const { input, locale } = request.query;
     try {
         const result = await new Promise((resolve, reject) => {
             pool.query(checkEmailQuery, [input], (error, results) => {
@@ -86,7 +86,7 @@ const checkEmailExists = async (request, response) => {
             });
         });
 
-        return response.status(200).json({"result": result.length > 0});
+        return response.status(200).json({"result": result.length > 0, "text": (locale === 'en') ? "Email already in use" : "Email už je použitý iným použivateľom"});
     }
     catch (error) {
         return response.status(500).json({"result": false});

@@ -15,7 +15,7 @@ const getFriendSearch = async (request, response) => {
             return response.status(200).json({"result": true, "friends": friends});
         }
         await logger("Error", "No friends found with filter: " + filter);
-        return response.status(404).json({"result": false, "friends": "No friends found with filter: " + filter});
+        return response.status(200).json({"result": false, "friends": "No friends found with filter: " + filter});
     } catch (error) {
         await logger("Warning", "Error while searching for friends: " + error.message);
         return response.status(500).json({ "result": false, "error": "Error while searching for friends: " + error.message });

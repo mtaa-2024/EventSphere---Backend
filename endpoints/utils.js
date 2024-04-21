@@ -24,6 +24,7 @@ getEventQuery =
     '    events.location, \n' +
     '    events.latitude, \n' +
     '    events.longitude, \n' +
+    '    categories.category_id, \n' +
     '    TO_CHAR(events.estimated_end::timestamptz, \'DD.MM.YYYY HH24:MI\') as estimated_end, \n' +
     '    users.id as owner_id, \n' +
     '    users.firstname, \n' +
@@ -31,6 +32,7 @@ getEventQuery =
     '    users.profile_image \n' +
     'FROM events \n' +
     'INNER JOIN users ON events.owner_id = users.id \n' +
+    'INNER JOIN categories ON categories.event_id = events.id \n' +
     'WHERE events.id = $1;'
 
 getEventCommentsQuery =
@@ -46,26 +48,27 @@ getEventCommentsQuery =
     'WHERE events.id = $1;'
 
 getEventPerformersQuery =
-    'SELECT\n' +
-    '    CASE WHEN(event_performers.user_id) IS NULL THEN NULL ELSE event_performers.user_id END as id,\n' +
-    '    CASE WHEN(event_performers.firstname IS NULL) THEN users.firstname ELSE event_performers.firstname END as firstname,\n' +
-    '    CASE WHEN(event_performers.lastname) IS NULL THEN users.lastname ELSE event_performers.lastname END as lastname,\n' +
-    '    CASE WHEN(users.profile_image) IS NULL THEN NULL ELSE users.profile_image END as profile_image\n' +
+    'SELECT \n' +
+    '    event_performers.user_id, \n' +
+    '    users.firstname, \n' +
+    '    users.lastname, \n' +
+    '    users.profile_image \n' +
     'FROM event_performers\n' +
-    'INNER JOIN events ON event_performers.event_id = events.id\n' +
-    'LEFT JOIN users ON event_performers.user_id = users.id\n' +
+    'INNER JOIN events ON event_performers.event_id = events.id \n' +
+    'INNER JOIN users ON event_performers.user_id = users.id \n' +
     'WHERE events.id = $1;'
 
-getUpcomingQuery =
-    'SELECT\n' +
-    '    events.id,\n' +
-    '    events.title,\n' +
-    '    events.location,\n' +
-    '    TO_CHAR(events.estimated_end::timestamptz, \'DD.MM.YYYY HH24:MI\') as estimated_end\n' +
-    'FROM events\n' +
-    'WHERE events.estimated_end > NOW()\n' +
-    'ORDER BY events.estimated_end'
-
+const getUpcomingQuery = (arg) => {
+    return 'SELECT\n' +
+        '    events.id,\n' +
+        '    events.title,\n' +
+        '    events.location,\n' +
+        '    TO_CHAR(events.estimated_end::timestamptz, \'DD.MM.YYYY HH24:MI\') as estimated_end\n' +
+        'FROM events \n' +
+        'INNER JOIN categories ON events.id = categories.event_id \n' +
+        'WHERE events.estimated_end::timestamptz > NOW() AND categories.category_id IN (' + arg + ') \n' +
+        'ORDER BY events.estimated_end';
+}
 getAttendingQuery =
     'SELECT\n' +
     '    events.id,\n' +
@@ -98,13 +101,13 @@ searchEventQuery =
     'WHERE LOWER(events.title) LIKE LOWER(CONCAT(\'%\', $1::text, \'%\'));'
 
 getFriendsQuery =
-    'SELECT\n' +
-    'users.id, \n' +
-    'users.firstname,\n' +
-    'users.lastname,\n' +
-    'users.profile_image\n' +
+    'SELECT \n' +
+    '   users.id, \n' +
+    '   users.firstname, \n' +
+    '   users.lastname, \n' +
+    '   users.profile_image \n' +
     'FROM users\n' +
-    'INNER JOIN friends ON users.id = friends.friend_id\n' +
+    'INNER JOIN friends ON users.id = friends.friend_id \n' +
     'WHERE friends.user_id = $1;'
 
 removeFriendQuery =
@@ -229,16 +232,11 @@ createEventQuery =
     'RETURNING events.id;'
 
 addPerformerIdQuery =
-    'INSERT INTO\n' +
-    '    event_performers\n' +
-    '    (event_id, performer_id)\n' +
+    'INSERT INTO \n' +
+    '    event_performers \n' +
+    '    (event_id, user_id) \n' +
     'VALUES ($1, $2);'
 
-addPerformerNameQuery =
-    'INSERT INTO\n' +
-    '    event_performers\n' +
-    '    (event_id, firstname, lastname)\n' +
-    'VALUES ($1, $2, $3);'
 
 insertImageQuery =
     'UPDATE users\n' +
@@ -250,7 +248,7 @@ getUpcomingEventsQuery =
     '   events.id, \n' +
     '   events.title, \n' +
     '   events.location, \n' +
-    '   events.estimated_end \n' +
+    '   TO_CHAR(events.estimated_end::timestamptz, \'DD.MM.YYYY HH24:MI\') as estimated_end \n' +
     'FROM events \n' +
     'WHERE events.owner_id = $1 AND events.estimated_end > NOW()\n' +
     'ORDER BY events.estimated_end;'
@@ -260,7 +258,7 @@ getExpiredEventsQuery =
     '   events.id, \n' +
     '   events.title, \n' +
     '   events.location, \n' +
-    '   events.estimated_end \n' +
+    '   TO_CHAR(events.estimated_end::timestamptz, \'DD.MM.YYYY HH24:MI\') as estimated_end \n' +
     'FROM events \n' +
     'WHERE events.owner_id = $1 AND events.estimated_end < NOW()\n' +
     'ORDER BY events.estimated_end;'
@@ -279,16 +277,28 @@ insertCommentQuery =
     'RETURNING *;'
 
 addFriendQuery =
-    'INSERT INTO\n' +
+    'INSERT INTO \n' +
     '   friends\n' +
     '   (user_id, friend_id)\n' +
-    'VALUES ($1,$2);'
+    'VALUES ($1, $2);'
 
 eventExistsQuery = '' +
     'SELECT \n' +
     '* \n' +
     'FROM event_comments \n' +
     'WHERE event_comments.user_id = $1 AND event_comments.event_id = $2;'
+
+isFriendQuery =
+    'SELECT \n ' +
+    '* \n' +
+    'FROM friends \n' +
+    'WHERE friends.user_id = $1 AND friends.friend_id = $2;'
+
+addEventCategoryQuery =
+    'INSERT INTO \n ' +
+    '   categories \n' +
+    '(event_id, category_id) \n' +
+    'VALUES($1, $2);'
 
 module.exports = {
     checkIfUserExistsQuery,
@@ -320,12 +330,13 @@ module.exports = {
     updateDateQuery,
     createEventQuery,
     addPerformerIdQuery,
-    addPerformerNameQuery,
     insertImageQuery,
     getUpcomingEventsQuery,
     getExpiredEventsQuery,
     getUpdatedUserQuery,
     insertCommentQuery,
     addFriendQuery,
-    eventExistsQuery
+    eventExistsQuery,
+    isFriendQuery,
+    addEventCategoryQuery
 }
