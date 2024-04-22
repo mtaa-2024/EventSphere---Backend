@@ -4,6 +4,7 @@ const { getEventQuery, getEventCommentsQuery, getEventPerformersQuery, insertCom
 
 const getEvent = async (request, response) => {
     const id = request.query.id;
+    
     try {
         const event = await new Promise((resolve, reject) => {
             pool.query(getEventQuery, [id], (error, results) => {
@@ -13,7 +14,6 @@ const getEvent = async (request, response) => {
         if (event.length > 0) {
             const comments = await getEventComments(id);
             const performers = await getEventPerformers(id);
-            console.log(performers)
             await logger("Info", "Received information for event with id: " + id);
             return response.status(200).json({'event': event, 'performers': performers, 'comments': comments});
         }

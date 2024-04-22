@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const db = require("./endpoints/init")
 const {insertProfileImage} = require("./endpoints/editProfileScreen");
+const WebSocket = require('ws');
 
 const app = express();
 app.use(bodyParser.json());
@@ -42,3 +43,43 @@ app.post('/comment', db.insertComment)
 
 app.get('/username', db.checkUsernameExists)
 app.get('/email', db.checkEmailExists)
+
+
+const wss = new WebSocket.Server({ port: config["wss:port"] });
+
+const clients = new Map();
+
+wss.on('connection', function connection(ws) {
+    console.log('Client connected');
+
+    ws.on('message', function incoming(message) {
+        console.log('Received: %s', message);
+
+        const parsedMessage = JSON.parse(message);
+        const recipientId = parsedMessage.recipientId;
+        const content = parsedMessage.content;
+
+        const recipientSocket = clients.get(recipientId);
+        if (recipientSocket) {
+            recipientSocket.send(content);
+        } else {
+            console.log('Recipient not found or not connected');
+        }
+    });
+
+    ws.on('close', function close() {
+        console.log('Client disconnected');
+        clients.forEach((clientSocket, clientId) => {
+            if (clientSocket === ws) {
+                clients.delete(clientId);
+            }
+        });
+    });
+
+    ws.on('message', function onConnectionMessage(message) {
+        const parsedMessage = JSON.parse(message);
+        const userId = parsedMessage.id;
+        clients.set(userId, ws);
+    });
+});
+

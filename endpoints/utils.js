@@ -214,15 +214,11 @@ updateLocationQuery =
     'UPDATE \n' +
     '   events \n' +
     'SET \n' +
-    ' location = $2 \n' +
+    ' location = $2, \n' +
+    ' latitude = $3, \n' +
+    ' longitude = $4 \n' +
     'WHERE events.id = $1;'
 
-updateDateQuery =
-    'UPDATE \n' +
-    '   events \n' +
-    'SET \n' +
-    ' date = $2 \n' +
-    'WHERE events.id = $1;'
 
 createEventQuery =
     'INSERT INTO \n' +
@@ -327,7 +323,6 @@ module.exports = {
     updateTitleQuery,
     updateDescriptionQuery,
     updateLocationQuery,
-    updateDateQuery,
     createEventQuery,
     addPerformerIdQuery,
     insertImageQuery,

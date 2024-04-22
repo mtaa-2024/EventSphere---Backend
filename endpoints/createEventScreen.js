@@ -17,8 +17,6 @@ const addCategory = async (category, event_id) => {
 const createEvent = async (request, response) => {
     const { user_id, title, description, location, latitude, longitude, estimated_end, performers, category } = request.body;
 
-    console.log(estimated_end)
-
     try {
         const createdEvent = await new Promise((resolve, reject) => {
             pool.query(createEventQuery, [title, description, user_id, location, latitude, longitude, estimated_end], (error, results) => {
