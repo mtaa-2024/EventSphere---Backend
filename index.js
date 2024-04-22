@@ -3,7 +3,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const db = require("./endpoints/init")
 const {insertProfileImage} = require("./endpoints/editProfileScreen");
-const WebSocket = require('ws');
+const { WebSocket } = require('ws');
 
 const app = express();
 app.use(bodyParser.json());
@@ -47,24 +47,20 @@ app.get('/email', db.checkEmailExists)
 
 const wss = new WebSocket.Server({ port: config["wss:port"] });
 
-const clients = new Map();
-
 wss.on('connection', function connection(ws) {
-    console.log('Client connected');
+    console.log('Client connected' + wss.clients.size);
 
-    ws.on('message', function incoming(message) {
+    ws.on('message', function incoming(data) {
+        const decodedString = Buffer.from(data, 'hex').toString('utf8');
+        const jsonObject = JSON.parse(decodedString);
+        const message = `{"message": "${jsonObject.message}", "id": ${jsonObject.id}}`
+        console.log(message)
         wss.clients.forEach((client) => {
-            client.send(message)
-        })
+            client.send(message);
+        });
     });
 
     ws.on('close', function close() {
         console.log('Client disconnected');
-        clients.forEach((clientSocket, clientId) => {
-            if (clientSocket === ws) {
-                clients.delete(clientId);
-            }
-        });
     });
-
 });
