@@ -9,6 +9,7 @@ const { getFriends, removeFriend, addFriend, isFriend} = require('./profileScree
 const { getFriendSearch } = require('./searchFriendScreen')
 const { getUpcomingOwner, getExpiredOwner } = require('./eventCenterScreen')
 
+
 module.exports = {
     getUser,
     getEvent,

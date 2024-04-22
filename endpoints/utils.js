@@ -237,7 +237,8 @@ addPerformerIdQuery =
 insertImageQuery =
     'UPDATE users\n' +
     'SET profile_image = $2 \n' +
-    'WHERE users.id = $1;'
+    'WHERE users.id = $1 ' +
+    'RETURNING profile_image;'
 
 getUpcomingEventsQuery =
     'SELECT \n' +
@@ -274,9 +275,10 @@ insertCommentQuery =
 
 addFriendQuery =
     'INSERT INTO \n' +
-    '   friends\n' +
-    '   (user_id, friend_id)\n' +
-    'VALUES ($1, $2);'
+    '   friends \n' +
+    '(user_id, friend_id) \n' +
+    'VALUES ($1, $2) ' +
+    'RETURNING *;'
 
 eventExistsQuery = '' +
     'SELECT \n' +

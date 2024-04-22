@@ -35,13 +35,14 @@ const removeFriend = async (request, response) => {
 
 const addFriend = async(request, response)=> {
     const { user_id, friend_id } = request.body;
+    console.log(request.body)
     try {
         const result = await new Promise((resolve, reject) => {
             pool.query(addFriendQuery, [user_id, friend_id], (error, results) => {
                 error ? reject(error) : resolve(results.rows);
             });
         });
-        return response.status(200).json({"result": true, "add_id": friend_id});
+        return response.status(200).json({"result": (result.length > 0)});
     } catch (error) {
         await logger("Warning", "Error while adding friend with id (" + friend_id + "): " + error.message);
         return response.status(500).json({"result": false, "error": "\"Error while adding friend with id (" + friend_id + "):" + error.message});
@@ -56,7 +57,7 @@ const isFriend = async (request, response) => {
                 error ? reject(error) : resolve(results.rows);
             });
         });
-        return response.status(200).json({"result": result.length > 0});
+        return response.status(200).json({"result": result.length === 0});
     } catch (error) {
         await logger("Warning", "Error while getting info friend with id (" + friend_id + "): " + error.message);
         return response.status(500).json({"result": false, "error": "\"Error while adding friend with id (" + friend_id + "):" + error.message});

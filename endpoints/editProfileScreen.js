@@ -118,6 +118,7 @@ const editProfileImage = async (id, profileImage) => {
 
 const insertProfileImage = async (request, response) => {
     const { id, image } = request.body;
+    console.log(id, image)
     try {
         const result = await new Promise((resolve, reject) => {
             pool.query(insertImageQuery, [id, image], (error, results) => {
@@ -125,7 +126,7 @@ const insertProfileImage = async (request, response) => {
             });
         });
         await logger("Info", "Updated profile img for user with id: " + id);
-        return response.status(200).json({"result": true });
+        return response.status(200).json({"result": true, "image": result});
     } catch (error) {
         await logger("Warning", "Error while inserting profile img for user with id (" + id + "): " + error.message);
         return response.status(500).json({"result": false, "error": "Error while inserting profile img for user with id (" + id + "): " + error.message});

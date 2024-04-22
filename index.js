@@ -53,18 +53,9 @@ wss.on('connection', function connection(ws) {
     console.log('Client connected');
 
     ws.on('message', function incoming(message) {
-        console.log('Received: %s', message);
-
-        const parsedMessage = JSON.parse(message);
-        const recipientId = parsedMessage.recipientId;
-        const content = parsedMessage.content;
-
-        const recipientSocket = clients.get(recipientId);
-        if (recipientSocket) {
-            recipientSocket.send(content);
-        } else {
-            console.log('Recipient not found or not connected');
-        }
+        wss.clients.forEach((client) => {
+            client.send(message)
+        })
     });
 
     ws.on('close', function close() {
@@ -76,10 +67,4 @@ wss.on('connection', function connection(ws) {
         });
     });
 
-    ws.on('message', function onConnectionMessage(message) {
-        const parsedMessage = JSON.parse(message);
-        const userId = parsedMessage.id;
-        clients.set(userId, ws);
-    });
 });
-
